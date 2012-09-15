@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/javascript" src="display.js"></script>
+    <script type="text/javascript" src="radiothermostat.js"></script>
+</head>
+<body>
+    <div id="panels">
+    </div>
+    <script>
+        var thermostats = loadSettings('78A6D8AA-526D-4ADB-9E35-4CB70C06A765');
+        radioThermostatUpdate(thermostats[0]);
+        //renderThermostats(thermostats);
+    </script>
+</body>
+</html>

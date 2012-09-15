@@ -1,0 +1,3 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Blank.master.cs" Inherits="MasterPages_Blank" %>
+<asp:ContentPlaceHolder id="MainContent" runat="server"></asp:ContentPlaceHolder>
+

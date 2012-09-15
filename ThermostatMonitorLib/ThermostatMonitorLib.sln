@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThermostatMonitorLib", "ThermostatMonitorLib.csproj", "{87E2EF95-5E82-4E61-931E-16B2C038BC8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThermostatMonitorTester", "..\ThermostatMonitorTester\ThermostatMonitorTester.csproj", "{FCCC8A2E-B3A0-4D9D-8898-A4236FD94294}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThermostatMonitorWebApi", "..\..\websites\ThermostatMonitorWebApi\ThermostatMonitorWebApi.csproj", "{6659BE43-A071-4585-A84A-8EB33C90EC99}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ThermostatMonitorWeb", "..\..\websites\ThermostatMonitorWeb", "{196B8DD6-9DED-4254-9130-6097F73DD7B8}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "3.5"
+		ProjectReferences = "{87E2EF95-5E82-4E61-931E-16B2C038BC8C}|ThermostatMonitorLib.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/ThermostatMonitorWeb"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\websites\ThermostatMonitorWeb\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\ThermostatMonitorWeb\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/ThermostatMonitorWeb"
+		Release.AspNetCompiler.PhysicalPath = "..\..\websites\ThermostatMonitorWeb\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\ThermostatMonitorWeb\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "57746"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThermostatMonitorService", "..\ThermostatMonitorService\ThermostatMonitorService.csproj", "{6002AC1A-7222-4D76-8FB6-8FD6361C2AC7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{87E2EF95-5E82-4E61-931E-16B2C038BC8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E2EF95-5E82-4E61-931E-16B2C038BC8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E2EF95-5E82-4E61-931E-16B2C038BC8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E2EF95-5E82-4E61-931E-16B2C038BC8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCCC8A2E-B3A0-4D9D-8898-A4236FD94294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCCC8A2E-B3A0-4D9D-8898-A4236FD94294}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCCC8A2E-B3A0-4D9D-8898-A4236FD94294}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCCC8A2E-B3A0-4D9D-8898-A4236FD94294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6659BE43-A071-4585-A84A-8EB33C90EC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6659BE43-A071-4585-A84A-8EB33C90EC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6659BE43-A071-4585-A84A-8EB33C90EC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6659BE43-A071-4585-A84A-8EB33C90EC99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{196B8DD6-9DED-4254-9130-6097F73DD7B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{196B8DD6-9DED-4254-9130-6097F73DD7B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{196B8DD6-9DED-4254-9130-6097F73DD7B8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{196B8DD6-9DED-4254-9130-6097F73DD7B8}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{6002AC1A-7222-4D76-8FB6-8FD6361C2AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6002AC1A-7222-4D76-8FB6-8FD6361C2AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6002AC1A-7222-4D76-8FB6-8FD6361C2AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6002AC1A-7222-4D76-8FB6-8FD6361C2AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{87E2EF95-5E82-4E61-931E-16B2C038BC8C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ThermostatMonitorLib</RootNamespace>
+    <AssemblyName>ThermostatMonitorLib</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cycle.cs" />
+    <Compile Include="Cycles.cs" />
+    <Compile Include="Generated\Cycle.cs" />
+    <Compile Include="Generated\Cycles.cs" />
+    <Compile Include="Generated\Error.cs" />
+    <Compile Include="Generated\Errors.cs" />
+    <Compile Include="Generated\Location.cs" />
+    <Compile Include="Generated\Locations.cs" />
+    <Compile Include="Generated\OutsideCondition.cs" />
+    <Compile Include="Generated\OutsideConditions.cs" />
+    <Compile Include="Generated\Snapshot.cs" />
+    <Compile Include="Generated\Snapshots.cs" />
+    <Compile Include="Generated\Temperature.cs" />
+    <Compile Include="Generated\Temperatures.cs" />
+    <Compile Include="Generated\Thermostat.cs" />
+    <Compile Include="Generated\Thermostats.cs" />
+    <Compile Include="Generated\ThermostatSetting.cs" />
+    <Compile Include="Generated\ThermostatSettings.cs" />
+    <Compile Include="Generated\TransitionStat.cs" />
+    <Compile Include="Generated\TransitionStats.cs" />
+    <Compile Include="Generated\User.cs" />
+    <Compile Include="Generated\Users.cs" />
+    <Compile Include="Generated\UserSetting.cs" />
+    <Compile Include="Generated\UserSettings.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="JSON.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="OutsideCondition.cs" />
+    <Compile Include="OutsideConditions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Snapshot.cs" />
+    <Compile Include="Snapshots.cs" />
+    <Compile Include="Temperature.cs" />
+    <Compile Include="Temperatures.cs" />
+    <Compile Include="Thermostat.cs" />
+    <Compile Include="Thermostats.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="Weather.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

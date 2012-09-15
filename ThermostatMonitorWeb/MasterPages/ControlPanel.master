@@ -1,0 +1,6 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/MasterPages/MasterPage.master" AutoEventWireup="true"
+    CodeFile="ControlPanel.master.cs" Inherits="MasterPages_ControlPanel" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="Server">
+    <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+</asp:Content>

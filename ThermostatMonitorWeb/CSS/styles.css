@@ -1,0 +1,25 @@
+﻿/*
+black - #333;
+blue - #36C;
+*/
+
+body {background-color:#333;font: normal 13px arial,sans-serif;color:#333;}
+a {color:#36C;text-decoration:none;}
+a:hover {text-decoration:underline;}
+li {margin-bottom:10px;}
+
+h1,h2,h3,p {margin-top:0px;margin-bottom:15px;}
+
+#page{background-color:#FFF;border:1px solid #000;width:980px;margin: 0px auto 0px auto;padding:10px;min-height:600px;}
+#loginBox {float:right;}
+#navBar {clear:both;background-color:#333;height:30px;margin-top:15px;margin-bottom:15px;}
+#navBar a {display:block;width:240px;text-align:center;float:left;color:#EEE;font-size:18px; font-weight:bold;padding-top:5px;border-left:2px solid #999;height:25px;}
+#navBar a:hover {text-decoration:none;color:#FFF;}
+
+.clear{clear:both;}
+.error{color:#CC0000;font-weight:bold;}
+.cool{ background-color:#EEEEFF; }
+.heat{ background-color:#FFEEEE; }
+.fan{ background-color:#EEFFEE; }
+.outside{ background-color:#EEEEEE; }
+

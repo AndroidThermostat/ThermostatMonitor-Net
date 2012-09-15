@@ -1,0 +1,12 @@
+﻿body {font: normal 13px arial,sans-serif;color:#333;margin:0px;}
+#panels {width:300px;background-color:#EEEEFF;}
+
+.panel {border:1px solid black;clear:both; padding:10px;}
+.right {width:100px;float:right;text-align:right;}
+.temperature {font-weight:bold;font-size:24px;}
+.state {font-weight:bold;padding-top:10px;}
+.name {font-size:18px;font-weight:bold;}
+.ip {font-weight:bold;}
+
+.apiKey{background-color:#EEEEFF;width:280px;padding:10px;}
+#apiKeyText{width:160px;}
