@@ -6,6 +6,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Security.Cryptography;
+using MySql.Data.MySqlClient;
+
 
 namespace ThermostatMonitorLib
 {
@@ -19,18 +21,21 @@ namespace ThermostatMonitorLib
             return prop.GetValue(obj, null);
         }
 
-        public static DataTable ExecuteQuery(string sql, System.Data.CommandType commandType, SqlParameter[] parameters)
+
+        public static DataTable ExecuteQuery(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter(sql, Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter(sql, Global.MySqlConnection);
             adapter.SelectCommand.CommandType = commandType;
             if (parameters != null)
             {
-                foreach (SqlParameter parameter in parameters) adapter.SelectCommand.Parameters.Add(parameter);
+                foreach (MySqlParameter parameter in parameters) adapter.SelectCommand.Parameters.Add(parameter);
             }
             DataTable dt = new DataTable();
             adapter.Fill(dt);
             return dt;
         }
+
+
         #endregion
 
 

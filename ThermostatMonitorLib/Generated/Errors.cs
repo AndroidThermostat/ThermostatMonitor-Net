@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 
 namespace ThermostatMonitorLib
@@ -16,7 +17,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Methods
-        public static Errors LoadErrors(string sql, System.Data.CommandType commandType, System.Data.SqlClient.SqlParameter[] parameters)
+        public static Errors LoadErrors(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
             return Errors.ConvertFromDT(Utils.ExecuteQuery(sql, commandType, parameters));
         }
@@ -33,7 +34,7 @@ namespace ThermostatMonitorLib
 
         public static Errors LoadAllErrors()
         {
-            return Errors.LoadErrors("LoadErrorsAll", CommandType.StoredProcedure, null);
+            return Errors.LoadErrors("errors_load_all", CommandType.StoredProcedure, null);
         }
 
         public Error GetErrorById(int errorId)
@@ -43,11 +44,6 @@ namespace ThermostatMonitorLib
                 if (error.Id == errorId) return error;
             }
             return null;
-        }
-
-        public static Errors LoadErrorsByUserId(System.Int32 userId)
-        {
-            return Errors.LoadErrors("LoadErrorsByUserId", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@UserId", userId) });
         }
 
 
@@ -61,7 +57,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
-
     }
 }
+
 

@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,10 +11,10 @@ namespace ThermostatMonitorLib
     public partial class User
     {
         #region Declarations
-        System.Int32 _id;
-        System.String _emailAddress;
-        System.String _password;
-        System.String _authCode;
+        int _id;
+        string _emailAddress;
+        string _password;
+        string _authCode;
 
         bool _isIdNull = true;
         bool _isEmailAddressNull = true;
@@ -21,7 +24,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -31,7 +34,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String EmailAddress
+        public string EmailAddress
         {
             get { return _emailAddress; }
             set
@@ -41,7 +44,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String Password
+        public string Password
         {
             get { return _password; }
             set
@@ -51,7 +54,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String AuthCode
+        public string AuthCode
         {
             get { return _authCode; }
             set
@@ -109,6 +112,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
+
         #region Constructor
         public User()
         {
@@ -118,7 +122,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static User LoadUser(int userId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadUser", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("users_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", userId);
             DataTable dt = new DataTable();
@@ -131,54 +135,54 @@ namespace ThermostatMonitorLib
         internal static User GetUser(DataRow row)
         {
             User result = new User();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("EmailAddress"))
+            if (row.Table.Columns.Contains("email_address"))
             {
-                if (Convert.IsDBNull(row["EmailAddress"]))
+                if (Convert.IsDBNull(row["email_address"]))
                 {
                     result._isEmailAddressNull = true;
                 }
                 else
                 {
-                    result._emailAddress = Convert.ToString(row["EmailAddress"]);
+                    result._emailAddress = Convert.ToString(row["email_address"]);
                     result._isEmailAddressNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Password"))
+            if (row.Table.Columns.Contains("password"))
             {
-                if (Convert.IsDBNull(row["Password"]))
+                if (Convert.IsDBNull(row["password"]))
                 {
                     result._isPasswordNull = true;
                 }
                 else
                 {
-                    result._password = Convert.ToString(row["Password"]);
+                    result._password = Convert.ToString(row["password"]);
                     result._isPasswordNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("AuthCode"))
+            if (row.Table.Columns.Contains("auth_code"))
             {
-                if (Convert.IsDBNull(row["AuthCode"]))
+                if (Convert.IsDBNull(row["auth_code"]))
                 {
                     result._isAuthCodeNull = true;
                 }
                 else
                 {
-                    result._authCode = Convert.ToString(row["AuthCode"]);
+                    result._authCode = Convert.ToString(row["auth_code"]);
                     result._isAuthCodeNull = false;
                 }
             }
@@ -189,42 +193,42 @@ namespace ThermostatMonitorLib
         public static int SaveUser(User user)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveUser", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("users_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (user._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", user._id);
+                cmd.Parameters.AddWithValue("@id", user._id);
             }
 
             if (user._isEmailAddressNull)
             {
-                cmd.Parameters.AddWithValue("@EmailAddress", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@email_address", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@EmailAddress", user._emailAddress);
+                cmd.Parameters.AddWithValue("@email_address", user._emailAddress);
             }
 
             if (user._isPasswordNull)
             {
-                cmd.Parameters.AddWithValue("@Password", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@password", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Password", user._password);
+                cmd.Parameters.AddWithValue("@password", user._password);
             }
 
             if (user._isAuthCodeNull)
             {
-                cmd.Parameters.AddWithValue("@AuthCode", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@auth_code", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@AuthCode", user._authCode);
+                cmd.Parameters.AddWithValue("@auth_code", user._authCode);
             }
 
             cmd.Connection.Open();
@@ -242,7 +246,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteUser(int userId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteUser", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("users_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", userId);
             cmd.Connection.Open();
@@ -265,7 +269,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -11,7 +11,7 @@ namespace ThermostatMonitorLib
     {
         public static Cycles LoadRange(System.Int32 thermostatId, DateTime startDate, DateTime endDate)
         {
-            return Cycles.LoadCycles("SELECT * FROM Cycles WHERE ThermostatID=@ThermostatId AND StartDate BETWEEN @StartDate and @EndDate", CommandType.Text, new SqlParameter[] { new SqlParameter("@ThermostatId", thermostatId), new SqlParameter("@StartDate", startDate), new SqlParameter("@EndDate", endDate) });
+            return Cycles.LoadCycles("SELECT * FROM cycles WHERE thermostat_id=@ThermostatId AND start_date BETWEEN @StartDate and @EndDate", CommandType.Text, new MySqlParameter[] { new MySqlParameter("@ThermostatId", thermostatId), new MySqlParameter("@StartDate", startDate), new MySqlParameter("@EndDate", endDate) });
         }
 
         public void RemoveIncomplete()
@@ -34,7 +34,7 @@ namespace ThermostatMonitorLib
             System.Collections.Hashtable cycleTypes = new System.Collections.Hashtable();
             foreach (DataRow row in cycles.Rows) 
             {
-                string cycleType = Convert.ToString(row["CycleType"]);
+                string cycleType = Convert.ToString(row["cycle_type"]);
                 if (!cycleTypes.Contains(cycleType)) cycleTypes.Add(cycleType, cycleType);
             }
             foreach (string cycleType in cycleTypes.Keys)
@@ -50,11 +50,11 @@ namespace ThermostatMonitorLib
 
             foreach (DataRow row in cycles.Rows)
             {
-                string cycleType = Convert.ToString(row["CycleType"]);
-                int cycleCount = Convert.ToInt32(row["CycleCount"]);
-                int totalSeconds = Convert.ToInt32(row["TotalSeconds"]);
+                string cycleType = Convert.ToString(row["cycle_type"]);
+                int cycleCount = Convert.ToInt32(row["cycle_count"]);
+                int totalSeconds = Convert.ToInt32(row["total_seconds"]);
                 double averageSeconds = Convert.ToDouble(totalSeconds) / Convert.ToDouble(cycleCount);
-                DateTime logDate = Convert.ToDateTime(row["LogDate"]);
+                DateTime logDate = Convert.ToDateTime(row["log_date"]);
 
                 bool newDate = !dateHash.Contains(logDate);
                 DataRow resultRow=null;
@@ -72,7 +72,7 @@ namespace ThermostatMonitorLib
 
             foreach (DataRow row in weather.Rows)
             {
-                DateTime logDate = Convert.ToDateTime(row["LogDate"]);
+                DateTime logDate = Convert.ToDateTime(row["log_date"]);
                 bool newDate = !dateHash.Contains(logDate);
                 if (!newDate)
                 {
@@ -89,7 +89,7 @@ namespace ThermostatMonitorLib
 
         public static DataTable LoadSummary(int thermostatId, DateTime startDate, DateTime endDate, int timezoneDifference)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("select SUM(datediff(ss,StartDate,EndDate)) as TotalSeconds,COUNT(*) as CycleCount,CONVERT(varchar, DateAdd(hh," + timezoneDifference.ToString() + ",StartDate), 101) as LogDate,cycletype from Cycles where ThermostatId=@ThermostatId AND DateAdd(hh," + timezoneDifference.ToString() + ",StartDate) BETWEEN @StartDate AND @EndDate and EndDate is not null group by CONVERT(varchar, DateAdd(hh," + timezoneDifference.ToString() + ",StartDate), 101),CycleType", Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("select SUM(TIME_TO_SEC(timediff(end_date,start_date))) as total_seconds,COUNT(*) as cycle_count, DATE(DATE_ADD(start_date, INTERVAL " + timezoneDifference.ToString() + " HOUR)) as log_date,cycle_type from cycles where thermostat_id=@ThermostatId AND DATE_ADD(start_date, INTERVAL " + timezoneDifference.ToString() + " HOUR) BETWEEN @StartDate AND @EndDate and end_date is not null group by DATE(DATE_ADD(start_date, INTERVAL " + timezoneDifference.ToString() + " HOUR)),cycle_type", Global.MySqlConnection);
             adapter.SelectCommand.Parameters.AddWithValue("@ThermostatId", thermostatId);
             adapter.SelectCommand.Parameters.AddWithValue("@StartDate", startDate.Date);
             adapter.SelectCommand.Parameters.AddWithValue("@EndDate", endDate.Date.AddDays(1).AddMilliseconds(-1));

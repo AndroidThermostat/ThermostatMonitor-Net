@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 
 namespace ThermostatMonitorLib
@@ -16,7 +17,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Methods
-        public static Users LoadUsers(string sql, System.Data.CommandType commandType, System.Data.SqlClient.SqlParameter[] parameters)
+        public static Users LoadUsers(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
             return Users.ConvertFromDT(Utils.ExecuteQuery(sql, commandType, parameters));
         }
@@ -33,7 +34,7 @@ namespace ThermostatMonitorLib
 
         public static Users LoadAllUsers()
         {
-            return Users.LoadUsers("LoadUsersAll", CommandType.StoredProcedure, null);
+            return Users.LoadUsers("users_load_all", CommandType.StoredProcedure, null);
         }
 
         public User GetUserById(int userId)
@@ -56,7 +57,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
-
     }
 }
+
 

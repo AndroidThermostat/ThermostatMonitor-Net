@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -17,7 +17,7 @@ namespace ThermostatMonitorLib
 
         public static Temperature LoadCurrentTemperature(int thermostatId)
         {
-            Temperatures temperatures=Temperatures.LoadTemperatures("SELECT TOP 1 * FROM Temperatures WHERE ThermostatId=@ThermostatId ORDER BY ID DESC", CommandType.Text, new SqlParameter[] { new SqlParameter("@ThermostatId", thermostatId) });
+            Temperatures temperatures = Temperatures.LoadTemperatures("SELECT * FROM temperatures WHERE thermostat_id=@ThermostatId ORDER BY ID DESC Limit 1;", CommandType.Text, new MySqlParameter[] { new MySqlParameter("@ThermostatId", thermostatId) });
             if (temperatures.Count == 0) return null; else return temperatures[0];
         }
 
@@ -27,7 +27,7 @@ namespace ThermostatMonitorLib
             t.Degrees = degrees;
             t.LogDate = DateTime.Now;
             t.ThermostatId = thermostatId;
-            t.Precision = precision;
+            t.LogPrecision = precision;
             Temperature.SaveTemperature(t);
         }
     }

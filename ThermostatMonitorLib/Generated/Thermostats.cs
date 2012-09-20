@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 
 namespace ThermostatMonitorLib
@@ -16,7 +17,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Methods
-        public static Thermostats LoadThermostats(string sql, System.Data.CommandType commandType, System.Data.SqlClient.SqlParameter[] parameters)
+        public static Thermostats LoadThermostats(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
             return Thermostats.ConvertFromDT(Utils.ExecuteQuery(sql, commandType, parameters));
         }
@@ -33,7 +34,7 @@ namespace ThermostatMonitorLib
 
         public static Thermostats LoadAllThermostats()
         {
-            return Thermostats.LoadThermostats("LoadThermostatsAll", CommandType.StoredProcedure, null);
+            return Thermostats.LoadThermostats("thermostats_load_all", CommandType.StoredProcedure, null);
         }
 
         public Thermostat GetThermostatById(int thermostatId)
@@ -45,9 +46,9 @@ namespace ThermostatMonitorLib
             return null;
         }
 
-        public static Thermostats LoadThermostatsByLocationId(System.Int32 locationId)
+        public static Thermostats LoadThermostatsByLocationId(int locationId)
         {
-            return Thermostats.LoadThermostats("LoadThermostatsByLocationId", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@LocationId", locationId) });
+            return Thermostats.LoadThermostats("thermostats_load_by_location_id", CommandType.StoredProcedure, new MySqlParameter[] { new MySqlParameter("@location_id", locationId) });
         }
 
 
@@ -61,7 +62,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
-
     }
 }
+
 

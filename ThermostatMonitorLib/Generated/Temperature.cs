@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,22 +11,22 @@ namespace ThermostatMonitorLib
     public partial class Temperature
     {
         #region Declarations
-        System.Int32 _id;
-        System.Int32 _thermostatId;
-        System.DateTime _logDate;
-        System.Double _degrees;
-        System.Int16 _precision;
+        int _id;
+        int _thermostatId;
+        DateTime _logDate;
+        double _degrees;
+        int _logPrecision;
 
         bool _isIdNull = true;
         bool _isThermostatIdNull = true;
         bool _isLogDateNull = true;
         bool _isDegreesNull = true;
-        bool _isPrecisionNull = true;
+        bool _isLogPrecisionNull = true;
 
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -33,7 +36,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 ThermostatId
+        public int ThermostatId
         {
             get { return _thermostatId; }
             set
@@ -43,7 +46,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.DateTime LogDate
+        public DateTime LogDate
         {
             get { return _logDate; }
             set
@@ -53,7 +56,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Double Degrees
+        public double Degrees
         {
             get { return _degrees; }
             set
@@ -63,13 +66,13 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int16 Precision
+        public int LogPrecision
         {
-            get { return _precision; }
+            get { return _logPrecision; }
             set
             {
-                _precision = value;
-                _isPrecisionNull = false;
+                _logPrecision = value;
+                _isLogPrecisionNull = false;
             }
         }
 
@@ -118,19 +121,20 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public bool IsPrecisionNull
+        public bool IsLogPrecisionNull
         {
-            get { return _isPrecisionNull; }
+            get { return _isLogPrecisionNull; }
             set
             {
                 if (!value) throw new Exception("Can not set this property to false");
-                _isPrecisionNull = value;
-                _precision = -1;
+                _isLogPrecisionNull = value;
+                _logPrecision = -1;
             }
         }
 
 
         #endregion
+
 
         #region Constructor
         public Temperature()
@@ -141,7 +145,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static Temperature LoadTemperature(int temperatureId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadTemperature", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("temperatures_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", temperatureId);
             DataTable dt = new DataTable();
@@ -154,68 +158,68 @@ namespace ThermostatMonitorLib
         internal static Temperature GetTemperature(DataRow row)
         {
             Temperature result = new Temperature();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ThermostatId"))
+            if (row.Table.Columns.Contains("thermostat_id"))
             {
-                if (Convert.IsDBNull(row["ThermostatId"]))
+                if (Convert.IsDBNull(row["thermostat_id"]))
                 {
                     result._isThermostatIdNull = true;
                 }
                 else
                 {
-                    result._thermostatId = Convert.ToInt32(row["ThermostatId"]);
+                    result._thermostatId = Convert.ToInt32(row["thermostat_id"]);
                     result._isThermostatIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("LogDate"))
+            if (row.Table.Columns.Contains("log_date"))
             {
-                if (Convert.IsDBNull(row["LogDate"]))
+                if (Convert.IsDBNull(row["log_date"]))
                 {
                     result._isLogDateNull = true;
                 }
                 else
                 {
-                    result._logDate = Convert.ToDateTime(row["LogDate"]);
+                    result._logDate = Convert.ToDateTime(row["log_date"]);
                     result._isLogDateNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Degrees"))
+            if (row.Table.Columns.Contains("degrees"))
             {
-                if (Convert.IsDBNull(row["Degrees"]))
+                if (Convert.IsDBNull(row["degrees"]))
                 {
                     result._isDegreesNull = true;
                 }
                 else
                 {
-                    result._degrees = Convert.ToDouble(row["Degrees"]);
+                    result._degrees = Convert.ToDouble(row["degrees"]);
                     result._isDegreesNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Precision"))
+            if (row.Table.Columns.Contains("log_precision"))
             {
-                if (Convert.IsDBNull(row["Precision"]))
+                if (Convert.IsDBNull(row["log_precision"]))
                 {
-                    result._isPrecisionNull = true;
+                    result._isLogPrecisionNull = true;
                 }
                 else
                 {
-                    result._precision = Convert.ToInt16(row["Precision"]);
-                    result._isPrecisionNull = false;
+                    result._logPrecision = Convert.ToInt32(row["log_precision"]);
+                    result._isLogPrecisionNull = false;
                 }
             }
 
@@ -225,51 +229,51 @@ namespace ThermostatMonitorLib
         public static int SaveTemperature(Temperature temperature)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveTemperature", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("temperatures_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (temperature._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", temperature._id);
+                cmd.Parameters.AddWithValue("@id", temperature._id);
             }
 
             if (temperature._isThermostatIdNull)
             {
-                cmd.Parameters.AddWithValue("@ThermostatId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@thermostat_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ThermostatId", temperature._thermostatId);
+                cmd.Parameters.AddWithValue("@thermostat_id", temperature._thermostatId);
             }
 
             if (temperature._isLogDateNull)
             {
-                cmd.Parameters.AddWithValue("@LogDate", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@log_date", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@LogDate", temperature._logDate);
+                cmd.Parameters.AddWithValue("@log_date", temperature._logDate);
             }
 
             if (temperature._isDegreesNull)
             {
-                cmd.Parameters.AddWithValue("@Degrees", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@degrees", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Degrees", temperature._degrees);
+                cmd.Parameters.AddWithValue("@degrees", temperature._degrees);
             }
 
-            if (temperature._isPrecisionNull)
+            if (temperature._isLogPrecisionNull)
             {
-                cmd.Parameters.AddWithValue("@Precision", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@log_precision", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Precision", temperature._precision);
+                cmd.Parameters.AddWithValue("@log_precision", temperature._logPrecision);
             }
 
             cmd.Connection.Open();
@@ -287,7 +291,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteTemperature(int temperatureId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteTemperature", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("temperatures_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", temperatureId);
             cmd.Connection.Open();
@@ -310,7 +314,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,17 +11,17 @@ namespace ThermostatMonitorLib
     public partial class Location
     {
         #region Declarations
-        System.Int32 _id;
-        System.Int32 _userId;
-        System.String _name;
-        System.Guid _apiKey;
-        System.String _zipCode;
-        System.Double _electricityPrice;
-        System.Boolean _shareData;
-        System.Int32 _timezone;
-        System.Boolean _daylightSavings;
-        System.Double _heatFuelPrice;
-        System.Int32 _openWeatherCityId;
+        int _id;
+        int _userId;
+        string _name;
+        string _apiKey;
+        string _zipCode;
+        double _electricityPrice;
+        bool _shareData;
+        int _timezone;
+        bool _daylightSavings;
+        double _heatFuelPrice;
+        int _openWeatherCityId;
 
         bool _isIdNull = true;
         bool _isUserIdNull = true;
@@ -35,7 +38,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -45,7 +48,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 UserId
+        public int UserId
         {
             get { return _userId; }
             set
@@ -55,7 +58,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String Name
+        public string Name
         {
             get { return _name; }
             set
@@ -65,7 +68,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Guid ApiKey
+        public string ApiKey
         {
             get { return _apiKey; }
             set
@@ -75,7 +78,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String ZipCode
+        public string ZipCode
         {
             get { return _zipCode; }
             set
@@ -85,7 +88,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Double ElectricityPrice
+        public double ElectricityPrice
         {
             get { return _electricityPrice; }
             set
@@ -95,7 +98,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Boolean ShareData
+        public bool ShareData
         {
             get { return _shareData; }
             set
@@ -105,7 +108,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 Timezone
+        public int Timezone
         {
             get { return _timezone; }
             set
@@ -115,7 +118,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Boolean DaylightSavings
+        public bool DaylightSavings
         {
             get { return _daylightSavings; }
             set
@@ -125,7 +128,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Double HeatFuelPrice
+        public double HeatFuelPrice
         {
             get { return _heatFuelPrice; }
             set
@@ -135,7 +138,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 OpenWeatherCityId
+        public int OpenWeatherCityId
         {
             get { return _openWeatherCityId; }
             set
@@ -186,7 +189,7 @@ namespace ThermostatMonitorLib
             {
                 if (!value) throw new Exception("Can not set this property to false");
                 _isApiKeyNull = value;
-                _apiKey = System.Guid.Empty;
+                _apiKey = System.String.Empty;
             }
         }
 
@@ -270,6 +273,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
+
         #region Constructor
         public Location()
         {
@@ -279,7 +283,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static Location LoadLocation(int locationId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadLocation", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("locations_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", locationId);
             DataTable dt = new DataTable();
@@ -292,145 +296,145 @@ namespace ThermostatMonitorLib
         internal static Location GetLocation(DataRow row)
         {
             Location result = new Location();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("UserId"))
+            if (row.Table.Columns.Contains("user_id"))
             {
-                if (Convert.IsDBNull(row["UserId"]))
+                if (Convert.IsDBNull(row["user_id"]))
                 {
                     result._isUserIdNull = true;
                 }
                 else
                 {
-                    result._userId = Convert.ToInt32(row["UserId"]);
+                    result._userId = Convert.ToInt32(row["user_id"]);
                     result._isUserIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Name"))
+            if (row.Table.Columns.Contains("name"))
             {
-                if (Convert.IsDBNull(row["Name"]))
+                if (Convert.IsDBNull(row["name"]))
                 {
                     result._isNameNull = true;
                 }
                 else
                 {
-                    result._name = Convert.ToString(row["Name"]);
+                    result._name = Convert.ToString(row["name"]);
                     result._isNameNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ApiKey"))
+            if (row.Table.Columns.Contains("api_key"))
             {
-                if (Convert.IsDBNull(row["ApiKey"]))
+                if (Convert.IsDBNull(row["api_key"]))
                 {
                     result._isApiKeyNull = true;
                 }
                 else
                 {
-                    result._apiKey = (System.Guid)(row["ApiKey"]);
+                    result._apiKey = Convert.ToString(row["api_key"]);
                     result._isApiKeyNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ZipCode"))
+            if (row.Table.Columns.Contains("zip_code"))
             {
-                if (Convert.IsDBNull(row["ZipCode"]))
+                if (Convert.IsDBNull(row["zip_code"]))
                 {
                     result._isZipCodeNull = true;
                 }
                 else
                 {
-                    result._zipCode = Convert.ToString(row["ZipCode"]);
+                    result._zipCode = Convert.ToString(row["zip_code"]);
                     result._isZipCodeNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ElectricityPrice"))
+            if (row.Table.Columns.Contains("electricity_price"))
             {
-                if (Convert.IsDBNull(row["ElectricityPrice"]))
+                if (Convert.IsDBNull(row["electricity_price"]))
                 {
                     result._isElectricityPriceNull = true;
                 }
                 else
                 {
-                    result._electricityPrice = Convert.ToDouble(row["ElectricityPrice"]);
+                    result._electricityPrice = Convert.ToDouble(row["electricity_price"]);
                     result._isElectricityPriceNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ShareData"))
+            if (row.Table.Columns.Contains("share_data"))
             {
-                if (Convert.IsDBNull(row["ShareData"]))
+                if (Convert.IsDBNull(row["share_data"]))
                 {
                     result._isShareDataNull = true;
                 }
                 else
                 {
-                    result._shareData = Convert.ToBoolean(row["ShareData"]);
+                    result._shareData = Convert.ToBoolean(row["share_data"]);
                     result._isShareDataNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Timezone"))
+            if (row.Table.Columns.Contains("timezone"))
             {
-                if (Convert.IsDBNull(row["Timezone"]))
+                if (Convert.IsDBNull(row["timezone"]))
                 {
                     result._isTimezoneNull = true;
                 }
                 else
                 {
-                    result._timezone = Convert.ToInt32(row["Timezone"]);
+                    result._timezone = Convert.ToInt32(row["timezone"]);
                     result._isTimezoneNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("DaylightSavings"))
+            if (row.Table.Columns.Contains("daylight_savings"))
             {
-                if (Convert.IsDBNull(row["DaylightSavings"]))
+                if (Convert.IsDBNull(row["daylight_savings"]))
                 {
                     result._isDaylightSavingsNull = true;
                 }
                 else
                 {
-                    result._daylightSavings = Convert.ToBoolean(row["DaylightSavings"]);
+                    result._daylightSavings = Convert.ToBoolean(row["daylight_savings"]);
                     result._isDaylightSavingsNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("HeatFuelPrice"))
+            if (row.Table.Columns.Contains("heat_fuel_price"))
             {
-                if (Convert.IsDBNull(row["HeatFuelPrice"]))
+                if (Convert.IsDBNull(row["heat_fuel_price"]))
                 {
                     result._isHeatFuelPriceNull = true;
                 }
                 else
                 {
-                    result._heatFuelPrice = Convert.ToDouble(row["HeatFuelPrice"]);
+                    result._heatFuelPrice = Convert.ToDouble(row["heat_fuel_price"]);
                     result._isHeatFuelPriceNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("OpenWeatherCityId"))
+            if (row.Table.Columns.Contains("open_weather_city_id"))
             {
-                if (Convert.IsDBNull(row["OpenWeatherCityId"]))
+                if (Convert.IsDBNull(row["open_weather_city_id"]))
                 {
                     result._isOpenWeatherCityIdNull = true;
                 }
                 else
                 {
-                    result._openWeatherCityId = Convert.ToInt32(row["OpenWeatherCityId"]);
+                    result._openWeatherCityId = Convert.ToInt32(row["open_weather_city_id"]);
                     result._isOpenWeatherCityIdNull = false;
                 }
             }
@@ -441,105 +445,105 @@ namespace ThermostatMonitorLib
         public static int SaveLocation(Location location)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveLocation", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("locations_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (location._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", location._id);
+                cmd.Parameters.AddWithValue("@id", location._id);
             }
 
             if (location._isUserIdNull)
             {
-                cmd.Parameters.AddWithValue("@UserId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@user_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@UserId", location._userId);
+                cmd.Parameters.AddWithValue("@user_id", location._userId);
             }
 
             if (location._isNameNull)
             {
-                cmd.Parameters.AddWithValue("@Name", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@name", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Name", location._name);
+                cmd.Parameters.AddWithValue("@name", location._name);
             }
 
             if (location._isApiKeyNull)
             {
-                cmd.Parameters.AddWithValue("@ApiKey", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@api_key", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ApiKey", location._apiKey);
+                cmd.Parameters.AddWithValue("@api_key", location._apiKey);
             }
 
             if (location._isZipCodeNull)
             {
-                cmd.Parameters.AddWithValue("@ZipCode", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@zip_code", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ZipCode", location._zipCode);
+                cmd.Parameters.AddWithValue("@zip_code", location._zipCode);
             }
 
             if (location._isElectricityPriceNull)
             {
-                cmd.Parameters.AddWithValue("@ElectricityPrice", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@electricity_price", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ElectricityPrice", location._electricityPrice);
+                cmd.Parameters.AddWithValue("@electricity_price", location._electricityPrice);
             }
 
             if (location._isShareDataNull)
             {
-                cmd.Parameters.AddWithValue("@ShareData", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@share_data", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ShareData", location._shareData);
+                cmd.Parameters.AddWithValue("@share_data", location._shareData);
             }
 
             if (location._isTimezoneNull)
             {
-                cmd.Parameters.AddWithValue("@Timezone", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@timezone", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Timezone", location._timezone);
+                cmd.Parameters.AddWithValue("@timezone", location._timezone);
             }
 
             if (location._isDaylightSavingsNull)
             {
-                cmd.Parameters.AddWithValue("@DaylightSavings", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@daylight_savings", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@DaylightSavings", location._daylightSavings);
+                cmd.Parameters.AddWithValue("@daylight_savings", location._daylightSavings);
             }
 
             if (location._isHeatFuelPriceNull)
             {
-                cmd.Parameters.AddWithValue("@HeatFuelPrice", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@heat_fuel_price", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@HeatFuelPrice", location._heatFuelPrice);
+                cmd.Parameters.AddWithValue("@heat_fuel_price", location._heatFuelPrice);
             }
 
             if (location._isOpenWeatherCityIdNull)
             {
-                cmd.Parameters.AddWithValue("@OpenWeatherCityId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@open_weather_city_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@OpenWeatherCityId", location._openWeatherCityId);
+                cmd.Parameters.AddWithValue("@open_weather_city_id", location._openWeatherCityId);
             }
 
             cmd.Connection.Open();
@@ -557,7 +561,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteLocation(int locationId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteLocation", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("locations_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", locationId);
             cmd.Connection.Open();
@@ -580,7 +584,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

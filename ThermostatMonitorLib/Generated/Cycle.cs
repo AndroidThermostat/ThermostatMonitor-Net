@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,13 +11,13 @@ namespace ThermostatMonitorLib
     public partial class Cycle
     {
         #region Declarations
-        System.Int32 _id;
-        System.Int32 _thermostatId;
-        System.String _cycleType;
-        System.DateTime _startDate;
-        System.DateTime _endDate;
-        System.Int16 _startPrecision;
-        System.Int16 _endPrecision;
+        int _id;
+        int _thermostatId;
+        string _cycleType;
+        DateTime _startDate;
+        DateTime _endDate;
+        int _startPrecision;
+        int _endPrecision;
 
         bool _isIdNull = true;
         bool _isThermostatIdNull = true;
@@ -27,7 +30,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -37,7 +40,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 ThermostatId
+        public int ThermostatId
         {
             get { return _thermostatId; }
             set
@@ -47,7 +50,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String CycleType
+        public string CycleType
         {
             get { return _cycleType; }
             set
@@ -57,7 +60,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.DateTime StartDate
+        public DateTime StartDate
         {
             get { return _startDate; }
             set
@@ -67,7 +70,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.DateTime EndDate
+        public DateTime EndDate
         {
             get { return _endDate; }
             set
@@ -77,7 +80,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int16 StartPrecision
+        public int StartPrecision
         {
             get { return _startPrecision; }
             set
@@ -87,7 +90,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int16 EndPrecision
+        public int EndPrecision
         {
             get { return _endPrecision; }
             set
@@ -178,6 +181,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
+
         #region Constructor
         public Cycle()
         {
@@ -187,7 +191,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static Cycle LoadCycle(int cycleId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadCycle", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("cycles_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", cycleId);
             DataTable dt = new DataTable();
@@ -200,93 +204,93 @@ namespace ThermostatMonitorLib
         internal static Cycle GetCycle(DataRow row)
         {
             Cycle result = new Cycle();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ThermostatId"))
+            if (row.Table.Columns.Contains("thermostat_id"))
             {
-                if (Convert.IsDBNull(row["ThermostatId"]))
+                if (Convert.IsDBNull(row["thermostat_id"]))
                 {
                     result._isThermostatIdNull = true;
                 }
                 else
                 {
-                    result._thermostatId = Convert.ToInt32(row["ThermostatId"]);
+                    result._thermostatId = Convert.ToInt32(row["thermostat_id"]);
                     result._isThermostatIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("CycleType"))
+            if (row.Table.Columns.Contains("cycle_type"))
             {
-                if (Convert.IsDBNull(row["CycleType"]))
+                if (Convert.IsDBNull(row["cycle_type"]))
                 {
                     result._isCycleTypeNull = true;
                 }
                 else
                 {
-                    result._cycleType = Convert.ToString(row["CycleType"]);
+                    result._cycleType = Convert.ToString(row["cycle_type"]);
                     result._isCycleTypeNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("StartDate"))
+            if (row.Table.Columns.Contains("start_date"))
             {
-                if (Convert.IsDBNull(row["StartDate"]))
+                if (Convert.IsDBNull(row["start_date"]))
                 {
                     result._isStartDateNull = true;
                 }
                 else
                 {
-                    result._startDate = Convert.ToDateTime(row["StartDate"]);
+                    result._startDate = Convert.ToDateTime(row["start_date"]);
                     result._isStartDateNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("EndDate"))
+            if (row.Table.Columns.Contains("end_date"))
             {
-                if (Convert.IsDBNull(row["EndDate"]))
+                if (Convert.IsDBNull(row["end_date"]))
                 {
                     result._isEndDateNull = true;
                 }
                 else
                 {
-                    result._endDate = Convert.ToDateTime(row["EndDate"]);
+                    result._endDate = Convert.ToDateTime(row["end_date"]);
                     result._isEndDateNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("StartPrecision"))
+            if (row.Table.Columns.Contains("start_precision"))
             {
-                if (Convert.IsDBNull(row["StartPrecision"]))
+                if (Convert.IsDBNull(row["start_precision"]))
                 {
                     result._isStartPrecisionNull = true;
                 }
                 else
                 {
-                    result._startPrecision = Convert.ToInt16(row["StartPrecision"]);
+                    result._startPrecision = Convert.ToInt32(row["start_precision"]);
                     result._isStartPrecisionNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("EndPrecision"))
+            if (row.Table.Columns.Contains("end_precision"))
             {
-                if (Convert.IsDBNull(row["EndPrecision"]))
+                if (Convert.IsDBNull(row["end_precision"]))
                 {
                     result._isEndPrecisionNull = true;
                 }
                 else
                 {
-                    result._endPrecision = Convert.ToInt16(row["EndPrecision"]);
+                    result._endPrecision = Convert.ToInt32(row["end_precision"]);
                     result._isEndPrecisionNull = false;
                 }
             }
@@ -297,69 +301,69 @@ namespace ThermostatMonitorLib
         public static int SaveCycle(Cycle cycle)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveCycle", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("cycles_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (cycle._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", cycle._id);
+                cmd.Parameters.AddWithValue("@id", cycle._id);
             }
 
             if (cycle._isThermostatIdNull)
             {
-                cmd.Parameters.AddWithValue("@ThermostatId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@thermostat_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ThermostatId", cycle._thermostatId);
+                cmd.Parameters.AddWithValue("@thermostat_id", cycle._thermostatId);
             }
 
             if (cycle._isCycleTypeNull)
             {
-                cmd.Parameters.AddWithValue("@CycleType", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@cycle_type", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@CycleType", cycle._cycleType);
+                cmd.Parameters.AddWithValue("@cycle_type", cycle._cycleType);
             }
 
             if (cycle._isStartDateNull)
             {
-                cmd.Parameters.AddWithValue("@StartDate", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@start_date", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@StartDate", cycle._startDate);
+                cmd.Parameters.AddWithValue("@start_date", cycle._startDate);
             }
 
             if (cycle._isEndDateNull)
             {
-                cmd.Parameters.AddWithValue("@EndDate", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@end_date", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@EndDate", cycle._endDate);
+                cmd.Parameters.AddWithValue("@end_date", cycle._endDate);
             }
 
             if (cycle._isStartPrecisionNull)
             {
-                cmd.Parameters.AddWithValue("@StartPrecision", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@start_precision", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@StartPrecision", cycle._startPrecision);
+                cmd.Parameters.AddWithValue("@start_precision", cycle._startPrecision);
             }
 
             if (cycle._isEndPrecisionNull)
             {
-                cmd.Parameters.AddWithValue("@EndPrecision", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@end_precision", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@EndPrecision", cycle._endPrecision);
+                cmd.Parameters.AddWithValue("@end_precision", cycle._endPrecision);
             }
 
             cmd.Connection.Open();
@@ -377,7 +381,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteCycle(int cycleId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteCycle", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("cycles_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", cycleId);
             cmd.Connection.Open();
@@ -400,7 +404,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

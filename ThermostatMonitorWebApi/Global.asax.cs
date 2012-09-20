@@ -41,7 +41,7 @@ namespace ThermostatMonitorWebApi
             error.ErrorMessage = ex.ToString() + "\n\n" + additionalInfo;
             error.Url = url;
             error.LogDate = DateTime.Now;
-            error.UserId = 0;
+            //error.UserId = 0;
             ThermostatMonitorLib.Error.SaveError(error);
         }
 

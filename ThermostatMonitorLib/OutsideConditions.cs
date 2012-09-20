@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 
 namespace ThermostatMonitorLib
@@ -12,12 +12,12 @@ namespace ThermostatMonitorLib
     {
         public static OutsideConditions LoadRange(int locationId, DateTime startDate, DateTime endDate)
         {
-            return OutsideConditions.LoadOutsideConditions("SELECT * FROM OutsideConditions WHERE LocationId=@LocationId AND LogDate BETWEEN @StartDate and @EndDate", CommandType.Text, new SqlParameter[] { new SqlParameter("@LocationId", locationId), new SqlParameter("@StartDate", startDate), new SqlParameter("@EndDate", endDate) });
+            return OutsideConditions.LoadOutsideConditions("SELECT * FROM outside_conditions WHERE location_id=@LocationId AND log_date BETWEEN @StartDate and @EndDate", CommandType.Text, new MySqlParameter[] { new MySqlParameter("@LocationId", locationId), new MySqlParameter("@StartDate", startDate), new MySqlParameter("@EndDate", endDate) });
         }
 
         public static DataTable LoadSummary(int locationId, DateTime startDate, DateTime endDate, int timezoneDifference)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT CONVERT(varchar, DateAdd(hh," + timezoneDifference.ToString() + ",LogDate), 101) as LogDate,MIN(Degrees) as MinDegrees,MAX(Degrees) as MaxDegrees FROM OutsideConditions WHERE LocationId=@LocationId AND DateAdd(hh," + timezoneDifference.ToString() + ",LogDate) BETWEEN @StartDate AND @EndDate GROUP BY CONVERT(varchar, DateAdd(hh," + timezoneDifference.ToString() + ",LogDate), 101)", Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("SELECT DATE(DATE_ADD(log_date, INTERVAL " + timezoneDifference.ToString() + " HOUR)) as log_date,MIN(degrees) as MinDegrees,MAX(degrees) as MaxDegrees FROM outside_conditions WHERE location_id=@LocationId AND DATE(DATE_ADD(log_date, INTERVAL " + timezoneDifference.ToString() + " HOUR)) BETWEEN @StartDate AND @EndDate GROUP BY DATE(DATE_ADD(log_date, INTERVAL " + timezoneDifference.ToString() + " HOUR))", Global.MySqlConnection);
             adapter.SelectCommand.Parameters.AddWithValue("@LocationId", locationId);
             adapter.SelectCommand.Parameters.AddWithValue("@StartDate", startDate.Date);
             adapter.SelectCommand.Parameters.AddWithValue("@EndDate", endDate.Date.AddDays(1).AddMilliseconds(-1));

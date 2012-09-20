@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,10 +11,10 @@ namespace ThermostatMonitorLib
     public partial class OutsideCondition
     {
         #region Declarations
-        System.Int32 _id;
-        System.Int32 _degrees;
-        System.DateTime _logDate;
-        System.Int32 _locationId;
+        int _id;
+        int _degrees;
+        DateTime _logDate;
+        int _locationId;
 
         bool _isIdNull = true;
         bool _isDegreesNull = true;
@@ -21,7 +24,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -31,7 +34,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 Degrees
+        public int Degrees
         {
             get { return _degrees; }
             set
@@ -41,7 +44,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.DateTime LogDate
+        public DateTime LogDate
         {
             get { return _logDate; }
             set
@@ -51,7 +54,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 LocationId
+        public int LocationId
         {
             get { return _locationId; }
             set
@@ -109,6 +112,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
+
         #region Constructor
         public OutsideCondition()
         {
@@ -118,7 +122,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static OutsideCondition LoadOutsideCondition(int outsideConditionId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadOutsideCondition", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("outside_conditions_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", outsideConditionId);
             DataTable dt = new DataTable();
@@ -131,54 +135,54 @@ namespace ThermostatMonitorLib
         internal static OutsideCondition GetOutsideCondition(DataRow row)
         {
             OutsideCondition result = new OutsideCondition();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Degrees"))
+            if (row.Table.Columns.Contains("degrees"))
             {
-                if (Convert.IsDBNull(row["Degrees"]))
+                if (Convert.IsDBNull(row["degrees"]))
                 {
                     result._isDegreesNull = true;
                 }
                 else
                 {
-                    result._degrees = Convert.ToInt32(row["Degrees"]);
+                    result._degrees = Convert.ToInt32(row["degrees"]);
                     result._isDegreesNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("LogDate"))
+            if (row.Table.Columns.Contains("log_date"))
             {
-                if (Convert.IsDBNull(row["LogDate"]))
+                if (Convert.IsDBNull(row["log_date"]))
                 {
                     result._isLogDateNull = true;
                 }
                 else
                 {
-                    result._logDate = Convert.ToDateTime(row["LogDate"]);
+                    result._logDate = Convert.ToDateTime(row["log_date"]);
                     result._isLogDateNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("LocationId"))
+            if (row.Table.Columns.Contains("location_id"))
             {
-                if (Convert.IsDBNull(row["LocationId"]))
+                if (Convert.IsDBNull(row["location_id"]))
                 {
                     result._isLocationIdNull = true;
                 }
                 else
                 {
-                    result._locationId = Convert.ToInt32(row["LocationId"]);
+                    result._locationId = Convert.ToInt32(row["location_id"]);
                     result._isLocationIdNull = false;
                 }
             }
@@ -189,42 +193,42 @@ namespace ThermostatMonitorLib
         public static int SaveOutsideCondition(OutsideCondition outsideCondition)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveOutsideCondition", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("outside_conditions_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (outsideCondition._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", outsideCondition._id);
+                cmd.Parameters.AddWithValue("@id", outsideCondition._id);
             }
 
             if (outsideCondition._isDegreesNull)
             {
-                cmd.Parameters.AddWithValue("@Degrees", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@degrees", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Degrees", outsideCondition._degrees);
+                cmd.Parameters.AddWithValue("@degrees", outsideCondition._degrees);
             }
 
             if (outsideCondition._isLogDateNull)
             {
-                cmd.Parameters.AddWithValue("@LogDate", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@log_date", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@LogDate", outsideCondition._logDate);
+                cmd.Parameters.AddWithValue("@log_date", outsideCondition._logDate);
             }
 
             if (outsideCondition._isLocationIdNull)
             {
-                cmd.Parameters.AddWithValue("@LocationId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@location_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@LocationId", outsideCondition._locationId);
+                cmd.Parameters.AddWithValue("@location_id", outsideCondition._locationId);
             }
 
             cmd.Connection.Open();
@@ -242,7 +246,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteOutsideCondition(int outsideConditionId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteOutsideCondition", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("outside_conditions_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", outsideConditionId);
             cmd.Connection.Open();
@@ -265,7 +269,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

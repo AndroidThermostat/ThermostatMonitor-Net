@@ -27,6 +27,7 @@
         <img src="/images/logo.png" />
         <uc1:NavBar ID="NavBar1" runat="server" />
         <div class="content"><asp:ContentPlaceHolder id="MainContent" runat="server"/></div>
+        <center><br /><br /><a href="/terms/">Terms of Use</a></center>
     </div>
 </body>
 </html>

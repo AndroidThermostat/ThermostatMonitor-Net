@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -20,7 +20,7 @@ namespace ThermostatMonitorLib
 
         public static OutsideCondition LoadCurrentCondition(int locationId)
         {
-            OutsideConditions conditions = OutsideConditions.LoadOutsideConditions("SELECT top 1 * FROM OutsideConditions WHERE LocationId=@LocationId ORDER BY ID DESC", CommandType.Text, new SqlParameter[] { new SqlParameter("@LocationId", locationId) });
+            OutsideConditions conditions = OutsideConditions.LoadOutsideConditions("SELECT * FROM outside_conditions WHERE location_id=@LocationId ORDER BY ID DESC limit 1;", CommandType.Text, new MySqlParameter[] { new MySqlParameter("@LocationId", locationId) });
             if (conditions.Count == 0) return null; else return conditions[0];
         }
 

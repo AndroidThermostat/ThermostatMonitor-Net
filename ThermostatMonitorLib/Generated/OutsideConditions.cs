@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 
 namespace ThermostatMonitorLib
@@ -16,7 +17,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Methods
-        public static OutsideConditions LoadOutsideConditions(string sql, System.Data.CommandType commandType, System.Data.SqlClient.SqlParameter[] parameters)
+        public static OutsideConditions LoadOutsideConditions(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
             return OutsideConditions.ConvertFromDT(Utils.ExecuteQuery(sql, commandType, parameters));
         }
@@ -33,7 +34,7 @@ namespace ThermostatMonitorLib
 
         public static OutsideConditions LoadAllOutsideConditions()
         {
-            return OutsideConditions.LoadOutsideConditions("LoadOutsideConditionsAll", CommandType.StoredProcedure, null);
+            return OutsideConditions.LoadOutsideConditions("outside_conditions_load_all", CommandType.StoredProcedure, null);
         }
 
         public OutsideCondition GetOutsideConditionById(int outsideConditionId)
@@ -45,14 +46,9 @@ namespace ThermostatMonitorLib
             return null;
         }
 
-        public static OutsideConditions LoadOutsideConditionsByLocationId(System.Int32 locationId)
+        public static OutsideConditions LoadOutsideConditionsByLocationId(int locationId)
         {
-            return OutsideConditions.LoadOutsideConditions("LoadOutsideConditionsByLocationId", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@LocationId", locationId) });
-        }
-
-        public static OutsideConditions LoadOutsideConditionsByUserId(System.Int32 userId)
-        {
-            return OutsideConditions.LoadOutsideConditions("LoadOutsideConditionsByUserId", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@UserId", userId) });
+            return OutsideConditions.LoadOutsideConditions("outside_conditions_load_by_location_id", CommandType.StoredProcedure, new MySqlParameter[] { new MySqlParameter("@location_id", locationId) });
         }
 
 
@@ -66,7 +62,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
-
     }
 }
+
 

@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 
 namespace ThermostatMonitorLib
@@ -16,7 +17,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Methods
-        public static Locations LoadLocations(string sql, System.Data.CommandType commandType, System.Data.SqlClient.SqlParameter[] parameters)
+        public static Locations LoadLocations(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
             return Locations.ConvertFromDT(Utils.ExecuteQuery(sql, commandType, parameters));
         }
@@ -33,7 +34,7 @@ namespace ThermostatMonitorLib
 
         public static Locations LoadAllLocations()
         {
-            return Locations.LoadLocations("LoadLocationsAll", CommandType.StoredProcedure, null);
+            return Locations.LoadLocations("locations_load_all", CommandType.StoredProcedure, null);
         }
 
         public Location GetLocationById(int locationId)
@@ -45,9 +46,9 @@ namespace ThermostatMonitorLib
             return null;
         }
 
-        public static Locations LoadLocationsByUserId(System.Int32 userId)
+        public static Locations LoadLocationsByUserId(int userId)
         {
-            return Locations.LoadLocations("LoadLocationsByUserId", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@UserId", userId) });
+            return Locations.LoadLocations("locations_load_by_user_id", CommandType.StoredProcedure, new MySqlParameter[] { new MySqlParameter("@user_id", userId) });
         }
 
 
@@ -61,7 +62,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
-
     }
 }
+
 

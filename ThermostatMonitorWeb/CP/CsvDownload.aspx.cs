@@ -63,7 +63,7 @@ public partial class cp_CsvDownload : System.Web.UI.Page
     {
 
         ThermostatMonitorLib.Cycles cycles=ThermostatMonitorLib.Cycles.LoadRange(thermostat.Id, new DateTime(2000, 1, 1), DateTime.Now);
-        OutputCSV(cycles.GetCSV(thermostat.ACKilowatts, thermostat.FanKilowatts, thermostat.HeatBtuPerHour, AppUser.TimezoneDifference(location.Timezone, location.DaylightSavings)), "cycles.csv");
+        OutputCSV(cycles.GetCSV(thermostat.AcKilowatts, thermostat.FanKilowatts, thermostat.HeatBtuPerHour, AppUser.TimezoneDifference(location.Timezone, location.DaylightSavings)), "cycles.csv");
     }
 
     private void OutputCSV(string csv, string fileName)

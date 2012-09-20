@@ -41,7 +41,7 @@
         <tr><td>Electricity Price</td><td><asp:TextBox ID="PriceText" runat="server" Text="10.00"/></td><td>(in <u>cents</u> per kilowatt hour.  You can change this later.)</td></tr>
         <tr><td>Heat Fuel Price</td><td><asp:TextBox ID="HeatPriceText" runat="server" Text="10.00"/></td><td>(in <u>dollars</u> per Dekatherm.  You can change this later.)</td></tr>
         <tr><td colspan="3"><asp:CheckBox ID="ShareCheck" runat="server" Checked="true" /> May we share your anonymous thermostat data with others? *</td></tr>
-        <tr><td colspan="3"><asp:CheckBox ID="AgreeCheck" runat="server" Checked="true" /> I agree with the <a href="/aboutus/#terms" target="_blank">terms of use</a>.</td></tr>
+        <tr><td colspan="3"><asp:CheckBox ID="AgreeCheck" runat="server" Checked="true" /> I agree with the <a href="/terms/" target="_blank">terms of use</a>.</td></tr>
         <tr><td colspan="2" align="center"><asp:Button ID="RegisterButton" runat="server" Text="Register" onclick="RegisterButton_Click" /></td></tr>
     </table>
     

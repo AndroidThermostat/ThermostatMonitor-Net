@@ -63,7 +63,6 @@
     <Content Include="HtmlClient\RCS.js" />
     <Content Include="HtmlClient\Styles.css" />
     <Content Include="JSON\Default.aspx" />
-    <Content Include="readme.txt" />
     <Content Include="v2\Default.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>

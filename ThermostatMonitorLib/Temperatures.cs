@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -11,7 +11,7 @@ namespace ThermostatMonitorLib
     {
         public static Temperatures LoadRange(System.Int32 thermostatId,DateTime startDate, DateTime endDate)
         {
-            return Temperatures.LoadTemperatures("SELECT * FROM Temperatures WHERE ThermostatID=@ThermostatId AND LogDate BETWEEN @StartDate and @EndDate", CommandType.Text, new SqlParameter[] { new SqlParameter("@ThermostatId", thermostatId), new SqlParameter("@StartDate",startDate), new SqlParameter("@EndDate",endDate) });
+            return Temperatures.LoadTemperatures("SELECT * FROM temperatures WHERE thermostat_id=@ThermostatId AND log_date BETWEEN @StartDate and @EndDate", CommandType.Text, new MySqlParameter[] { new MySqlParameter("@ThermostatId", thermostatId), new MySqlParameter("@StartDate", startDate), new MySqlParameter("@EndDate", endDate) });
         }
 
         public Temperatures GetRange(DateTime startDate, DateTime endDate)

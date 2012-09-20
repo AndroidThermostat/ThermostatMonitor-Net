@@ -45,7 +45,7 @@ public partial class cp_Register : System.Web.UI.Page
             ThermostatMonitorLib.User.SaveUser(user);
 
             ThermostatMonitorLib.Location location = new ThermostatMonitorLib.Location();
-            location.ApiKey = Guid.NewGuid();
+            location.ApiKey = Guid.NewGuid().ToString();
             location.ElectricityPrice = Convert.ToDouble(PriceText.Text);
             location.HeatFuelPrice = Convert.ToDouble(HeatPriceText.Text.Replace("$", "").Replace(",", ""));
             location.Name = "Home";

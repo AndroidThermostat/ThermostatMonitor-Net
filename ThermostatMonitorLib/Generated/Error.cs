@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,11 +11,11 @@ namespace ThermostatMonitorLib
     public partial class Error
     {
         #region Declarations
-        System.Int32 _id;
-        System.Int32 _userId;
-        System.DateTime _logDate;
-        System.String _errorMessage;
-        System.String _url;
+        int _id;
+        int _userId;
+        DateTime _logDate;
+        string _errorMessage;
+        string _url;
 
         bool _isIdNull = true;
         bool _isUserIdNull = true;
@@ -23,7 +26,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -33,7 +36,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 UserId
+        public int UserId
         {
             get { return _userId; }
             set
@@ -43,7 +46,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.DateTime LogDate
+        public DateTime LogDate
         {
             get { return _logDate; }
             set
@@ -53,7 +56,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String ErrorMessage
+        public string ErrorMessage
         {
             get { return _errorMessage; }
             set
@@ -63,7 +66,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String Url
+        public string Url
         {
             get { return _url; }
             set
@@ -132,6 +135,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
+
         #region Constructor
         public Error()
         {
@@ -141,7 +145,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static Error LoadError(int errorId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadError", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("errors_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", errorId);
             DataTable dt = new DataTable();
@@ -154,67 +158,67 @@ namespace ThermostatMonitorLib
         internal static Error GetError(DataRow row)
         {
             Error result = new Error();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("UserId"))
+            if (row.Table.Columns.Contains("user_id"))
             {
-                if (Convert.IsDBNull(row["UserId"]))
+                if (Convert.IsDBNull(row["user_id"]))
                 {
                     result._isUserIdNull = true;
                 }
                 else
                 {
-                    result._userId = Convert.ToInt32(row["UserId"]);
+                    result._userId = Convert.ToInt32(row["user_id"]);
                     result._isUserIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("LogDate"))
+            if (row.Table.Columns.Contains("log_date"))
             {
-                if (Convert.IsDBNull(row["LogDate"]))
+                if (Convert.IsDBNull(row["log_date"]))
                 {
                     result._isLogDateNull = true;
                 }
                 else
                 {
-                    result._logDate = Convert.ToDateTime(row["LogDate"]);
+                    result._logDate = Convert.ToDateTime(row["log_date"]);
                     result._isLogDateNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ErrorMessage"))
+            if (row.Table.Columns.Contains("error_message"))
             {
-                if (Convert.IsDBNull(row["ErrorMessage"]))
+                if (Convert.IsDBNull(row["error_message"]))
                 {
                     result._isErrorMessageNull = true;
                 }
                 else
                 {
-                    result._errorMessage = Convert.ToString(row["ErrorMessage"]);
+                    result._errorMessage = Convert.ToString(row["error_message"]);
                     result._isErrorMessageNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Url"))
+            if (row.Table.Columns.Contains("url"))
             {
-                if (Convert.IsDBNull(row["Url"]))
+                if (Convert.IsDBNull(row["url"]))
                 {
                     result._isUrlNull = true;
                 }
                 else
                 {
-                    result._url = Convert.ToString(row["Url"]);
+                    result._url = Convert.ToString(row["url"]);
                     result._isUrlNull = false;
                 }
             }
@@ -225,51 +229,51 @@ namespace ThermostatMonitorLib
         public static int SaveError(Error error)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveError", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("errors_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (error._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", error._id);
+                cmd.Parameters.AddWithValue("@id", error._id);
             }
 
             if (error._isUserIdNull)
             {
-                cmd.Parameters.AddWithValue("@UserId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@user_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@UserId", error._userId);
+                cmd.Parameters.AddWithValue("@user_id", error._userId);
             }
 
             if (error._isLogDateNull)
             {
-                cmd.Parameters.AddWithValue("@LogDate", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@log_date", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@LogDate", error._logDate);
+                cmd.Parameters.AddWithValue("@log_date", error._logDate);
             }
 
             if (error._isErrorMessageNull)
             {
-                cmd.Parameters.AddWithValue("@ErrorMessage", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@error_message", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ErrorMessage", error._errorMessage);
+                cmd.Parameters.AddWithValue("@error_message", error._errorMessage);
             }
 
             if (error._isUrlNull)
             {
-                cmd.Parameters.AddWithValue("@Url", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@url", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Url", error._url);
+                cmd.Parameters.AddWithValue("@url", error._url);
             }
 
             cmd.Connection.Open();
@@ -287,7 +291,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteError(int errorId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteError", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("errors_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", errorId);
             cmd.Connection.Open();
@@ -310,7 +314,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

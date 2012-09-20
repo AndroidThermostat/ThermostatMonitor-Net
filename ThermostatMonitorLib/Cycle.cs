@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -47,7 +47,7 @@ namespace ThermostatMonitorLib
 
         public static Cycle LoadOpenCycle(int thermostatId)
         {
-            Cycles cycles = Cycles.LoadCycles("SELECT * FROM Cycles WHERE ThermostatId=@ThermostatId and EndDate IS NULL", CommandType.Text, new SqlParameter[] { new SqlParameter("@ThermostatId",thermostatId) });
+            Cycles cycles = Cycles.LoadCycles("SELECT * FROM cycles WHERE thermostat_id=@ThermostatId and end_date IS NULL", CommandType.Text, new MySqlParameter[] { new MySqlParameter("@ThermostatId", thermostatId) });
             if (cycles.Count == 0) return null; else return cycles[0];
         }
 

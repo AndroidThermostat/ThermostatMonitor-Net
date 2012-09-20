@@ -1,7 +1,11 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
+
 
 namespace ThermostatMonitorLib
 {
@@ -16,7 +20,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Methods
-        public static Cycles LoadCycles(string sql, System.Data.CommandType commandType, System.Data.SqlClient.SqlParameter[] parameters)
+        public static Cycles LoadCycles(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
             return Cycles.ConvertFromDT(Utils.ExecuteQuery(sql, commandType, parameters));
         }
@@ -33,7 +37,7 @@ namespace ThermostatMonitorLib
 
         public static Cycles LoadAllCycles()
         {
-            return Cycles.LoadCycles("LoadCyclesAll", CommandType.StoredProcedure, null);
+            return Cycles.LoadCycles("cycles_load_all", CommandType.StoredProcedure, null);
         }
 
         public Cycle GetCycleById(int cycleId)
@@ -43,6 +47,11 @@ namespace ThermostatMonitorLib
                 if (cycle.Id == cycleId) return cycle;
             }
             return null;
+        }
+
+        public static Cycles LoadCyclesByThermostatId(int thermostatId)
+        {
+            return Cycles.LoadCycles("cycles_load_by_thermostat_id", CommandType.StoredProcedure, new MySqlParameter[] { new MySqlParameter("@thermostat_id", thermostatId) });
         }
 
 
@@ -56,7 +65,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
-
     }
 }
+
 

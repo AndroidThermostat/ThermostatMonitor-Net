@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Collections;
+
 namespace ThermostatMonitorLib
 {
     public partial class Snapshot
     {
         public static Snapshot LoadLastSnapshot(int thermostatId)
         {
-            Snapshots result = Snapshots.LoadSnapshots("SELECT * FROM Snapshots where ThermostatId=@ThermostatId and startTime = (select MAX(StartTime) from Snapshots where ThermostatId=@ThermostatId)", CommandType.Text, new SqlParameter[] { new SqlParameter("@ThermostatId", thermostatId) });
+            Snapshots result = Snapshots.LoadSnapshots("SELECT * FROM snapshots where thermostat_id=@ThermostatId and start_time = (select MAX(start_time) from snapshots where thermostat_id=@ThermostatId)", CommandType.Text, new MySqlParameter[] { new MySqlParameter("@ThermostatId", thermostatId) });
             if (result.Count > 0) return result[0]; else return null;
         }
 

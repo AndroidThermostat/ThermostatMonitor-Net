@@ -12,7 +12,7 @@ namespace ThermostatMonitorLib
 
         public static DataTable LoadPublicThermostats()
         {
-            string sql = "select t.Id,t.LocationId,t.AcTons,t.AcSeer,t.ACKilowatts,t.FanKilowatts,t.HeatBtuPerHour,l.ZipCode,l.ElectricityPrice,l.Timezone from thermostats t inner join locations l on l.id=t.locationid WHERE l.ShareData=1 and (SELECT COUNT(*) FROM Temperatures WHERE ThermostatId=t.Id)>0";
+            string sql = "select t.Id,t.location_id,t.ac_tons,t.ac_seer,t.ac_kilowatts,t.fan_kilowatts,t.heat_btu_per_hour,l.zip_code,l.electricity_price,l.timezone from thermostats t inner join locations l on l.id=t.location_id WHERE l.share_data=1 and (SELECT COUNT(*) FROM temperatures WHERE thermostat_id=t.Id)>0";
             SqlDataAdapter adapter = new SqlDataAdapter(sql, Global.Connection);
             DataTable result = new DataTable();
             adapter.Fill(result);

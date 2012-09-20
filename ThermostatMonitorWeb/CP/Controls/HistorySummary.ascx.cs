@@ -59,7 +59,7 @@ public partial class cp_Controls_HistorySummary : System.Web.UI.UserControl
                 if (Convert.IsDBNull(row["Cool_CycleCount"])) sb.Append("<td class=\"cool\" colspan=\"4\">&nbsp;</td>");
                 else
                 {
-                    double coolCost = (thermostat.ACKilowatts + thermostat.FanKilowatts) * Convert.ToDouble(row["Cool_TotalSeconds"]) / 60.0 / 60.0 * location.ElectricityPrice / 100;
+                    double coolCost = (thermostat.AcKilowatts + thermostat.FanKilowatts) * Convert.ToDouble(row["Cool_TotalSeconds"]) / 60.0 / 60.0 * location.ElectricityPrice / 100;
                     sb.Append("<td class=\"cool\">" + row["Cool_CycleCount"].ToString() + "</td><td class=\"cool\">" + (Convert.ToDouble(row["Cool_AverageSeconds"]) / 60).ToString("#,##0.#") + " min</td><td class=\"cool\">" + (Convert.ToDouble(row["Cool_TotalSeconds"]) / 60).ToString("###,##0") + " min</td><td class=\"cool\">" + coolCost.ToString("C") + "</td>");
                 }
             }

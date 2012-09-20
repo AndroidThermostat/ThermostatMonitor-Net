@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Linq;
 
 namespace ThermostatMonitorLib
@@ -16,7 +17,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Methods
-        public static Snapshots LoadSnapshots(string sql, System.Data.CommandType commandType, System.Data.SqlClient.SqlParameter[] parameters)
+        public static Snapshots LoadSnapshots(string sql, System.Data.CommandType commandType, MySqlParameter[] parameters)
         {
             return Snapshots.ConvertFromDT(Utils.ExecuteQuery(sql, commandType, parameters));
         }
@@ -33,7 +34,7 @@ namespace ThermostatMonitorLib
 
         public static Snapshots LoadAllSnapshots()
         {
-            return Snapshots.LoadSnapshots("LoadSnapshotsAll", CommandType.StoredProcedure, null);
+            return Snapshots.LoadSnapshots("snapshots_load_all", CommandType.StoredProcedure, null);
         }
 
         public Snapshot GetSnapshotById(int snapshotId)
@@ -45,9 +46,9 @@ namespace ThermostatMonitorLib
             return null;
         }
 
-        public static Snapshots LoadSnapshotsByThermostatId(System.Int32 thermostatId)
+        public static Snapshots LoadSnapshotsByThermostatId(int thermostatId)
         {
-            return Snapshots.LoadSnapshots("LoadSnapshotsByThermostatId", CommandType.StoredProcedure, new SqlParameter[] { new SqlParameter("@ThermostatId", thermostatId) });
+            return Snapshots.LoadSnapshots("snapshots_load_by_thermostat_id", CommandType.StoredProcedure, new MySqlParameter[] { new MySqlParameter("@thermostat_id", thermostatId) });
         }
 
 
@@ -61,7 +62,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
-
     }
 }
+
 

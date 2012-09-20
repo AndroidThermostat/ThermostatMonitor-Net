@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,24 +11,24 @@ namespace ThermostatMonitorLib
     public partial class Thermostat
     {
         #region Declarations
-        System.Int32 _id;
-        System.String _ipAddress;
-        System.String _displayName;
-        System.Double _aCTons;
-        System.Int32 _aCSeer;
-        System.Double _aCKilowatts;
-        System.Double _fanKilowatts;
-        System.String _brand;
-        System.Int32 _locationId;
-        System.Double _heatBtuPerHour;
-        System.String _keyName;
+        int _id;
+        string _ipAddress;
+        string _displayName;
+        double _acTons;
+        int _acSeer;
+        double _acKilowatts;
+        double _fanKilowatts;
+        string _brand;
+        int _locationId;
+        double _heatBtuPerHour;
+        string _keyName;
 
         bool _isIdNull = true;
         bool _isIpAddressNull = true;
         bool _isDisplayNameNull = true;
-        bool _isACTonsNull = true;
-        bool _isACSeerNull = true;
-        bool _isACKilowattsNull = true;
+        bool _isAcTonsNull = true;
+        bool _isAcSeerNull = true;
+        bool _isAcKilowattsNull = true;
         bool _isFanKilowattsNull = true;
         bool _isBrandNull = true;
         bool _isLocationIdNull = true;
@@ -35,7 +38,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -45,7 +48,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String IpAddress
+        public string IpAddress
         {
             get { return _ipAddress; }
             set
@@ -55,7 +58,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String DisplayName
+        public string DisplayName
         {
             get { return _displayName; }
             set
@@ -65,37 +68,37 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Double ACTons
+        public double AcTons
         {
-            get { return _aCTons; }
+            get { return _acTons; }
             set
             {
-                _aCTons = value;
-                _isACTonsNull = false;
+                _acTons = value;
+                _isAcTonsNull = false;
             }
         }
 
-        public System.Int32 ACSeer
+        public int AcSeer
         {
-            get { return _aCSeer; }
+            get { return _acSeer; }
             set
             {
-                _aCSeer = value;
-                _isACSeerNull = false;
+                _acSeer = value;
+                _isAcSeerNull = false;
             }
         }
 
-        public System.Double ACKilowatts
+        public double AcKilowatts
         {
-            get { return _aCKilowatts; }
+            get { return _acKilowatts; }
             set
             {
-                _aCKilowatts = value;
-                _isACKilowattsNull = false;
+                _acKilowatts = value;
+                _isAcKilowattsNull = false;
             }
         }
 
-        public System.Double FanKilowatts
+        public double FanKilowatts
         {
             get { return _fanKilowatts; }
             set
@@ -105,7 +108,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String Brand
+        public string Brand
         {
             get { return _brand; }
             set
@@ -115,7 +118,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 LocationId
+        public int LocationId
         {
             get { return _locationId; }
             set
@@ -125,7 +128,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Double HeatBtuPerHour
+        public double HeatBtuPerHour
         {
             get { return _heatBtuPerHour; }
             set
@@ -135,7 +138,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String KeyName
+        public string KeyName
         {
             get { return _keyName; }
             set
@@ -179,36 +182,36 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public bool IsACTonsNull
+        public bool IsAcTonsNull
         {
-            get { return _isACTonsNull; }
+            get { return _isAcTonsNull; }
             set
             {
                 if (!value) throw new Exception("Can not set this property to false");
-                _isACTonsNull = value;
-                _aCTons = -1;
+                _isAcTonsNull = value;
+                _acTons = -1;
             }
         }
 
-        public bool IsACSeerNull
+        public bool IsAcSeerNull
         {
-            get { return _isACSeerNull; }
+            get { return _isAcSeerNull; }
             set
             {
                 if (!value) throw new Exception("Can not set this property to false");
-                _isACSeerNull = value;
-                _aCSeer = -1;
+                _isAcSeerNull = value;
+                _acSeer = -1;
             }
         }
 
-        public bool IsACKilowattsNull
+        public bool IsAcKilowattsNull
         {
-            get { return _isACKilowattsNull; }
+            get { return _isAcKilowattsNull; }
             set
             {
                 if (!value) throw new Exception("Can not set this property to false");
-                _isACKilowattsNull = value;
-                _aCKilowatts = -1;
+                _isAcKilowattsNull = value;
+                _acKilowatts = -1;
             }
         }
 
@@ -270,6 +273,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
+
         #region Constructor
         public Thermostat()
         {
@@ -279,7 +283,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static Thermostat LoadThermostat(int thermostatId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadThermostat", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("thermostats_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", thermostatId);
             DataTable dt = new DataTable();
@@ -292,145 +296,145 @@ namespace ThermostatMonitorLib
         internal static Thermostat GetThermostat(DataRow row)
         {
             Thermostat result = new Thermostat();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("IpAddress"))
+            if (row.Table.Columns.Contains("ip_address"))
             {
-                if (Convert.IsDBNull(row["IpAddress"]))
+                if (Convert.IsDBNull(row["ip_address"]))
                 {
                     result._isIpAddressNull = true;
                 }
                 else
                 {
-                    result._ipAddress = Convert.ToString(row["IpAddress"]);
+                    result._ipAddress = Convert.ToString(row["ip_address"]);
                     result._isIpAddressNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("DisplayName"))
+            if (row.Table.Columns.Contains("display_name"))
             {
-                if (Convert.IsDBNull(row["DisplayName"]))
+                if (Convert.IsDBNull(row["display_name"]))
                 {
                     result._isDisplayNameNull = true;
                 }
                 else
                 {
-                    result._displayName = Convert.ToString(row["DisplayName"]);
+                    result._displayName = Convert.ToString(row["display_name"]);
                     result._isDisplayNameNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ACTons"))
+            if (row.Table.Columns.Contains("ac_tons"))
             {
-                if (Convert.IsDBNull(row["ACTons"]))
+                if (Convert.IsDBNull(row["ac_tons"]))
                 {
-                    result._isACTonsNull = true;
+                    result._isAcTonsNull = true;
                 }
                 else
                 {
-                    result._aCTons = Convert.ToDouble(row["ACTons"]);
-                    result._isACTonsNull = false;
+                    result._acTons = Convert.ToDouble(row["ac_tons"]);
+                    result._isAcTonsNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ACSeer"))
+            if (row.Table.Columns.Contains("ac_seer"))
             {
-                if (Convert.IsDBNull(row["ACSeer"]))
+                if (Convert.IsDBNull(row["ac_seer"]))
                 {
-                    result._isACSeerNull = true;
+                    result._isAcSeerNull = true;
                 }
                 else
                 {
-                    result._aCSeer = Convert.ToInt32(row["ACSeer"]);
-                    result._isACSeerNull = false;
+                    result._acSeer = Convert.ToInt32(row["ac_seer"]);
+                    result._isAcSeerNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ACKilowatts"))
+            if (row.Table.Columns.Contains("ac_kilowatts"))
             {
-                if (Convert.IsDBNull(row["ACKilowatts"]))
+                if (Convert.IsDBNull(row["ac_kilowatts"]))
                 {
-                    result._isACKilowattsNull = true;
+                    result._isAcKilowattsNull = true;
                 }
                 else
                 {
-                    result._aCKilowatts = Convert.ToDouble(row["ACKilowatts"]);
-                    result._isACKilowattsNull = false;
+                    result._acKilowatts = Convert.ToDouble(row["ac_kilowatts"]);
+                    result._isAcKilowattsNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("FanKilowatts"))
+            if (row.Table.Columns.Contains("fan_kilowatts"))
             {
-                if (Convert.IsDBNull(row["FanKilowatts"]))
+                if (Convert.IsDBNull(row["fan_kilowatts"]))
                 {
                     result._isFanKilowattsNull = true;
                 }
                 else
                 {
-                    result._fanKilowatts = Convert.ToDouble(row["FanKilowatts"]);
+                    result._fanKilowatts = Convert.ToDouble(row["fan_kilowatts"]);
                     result._isFanKilowattsNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Brand"))
+            if (row.Table.Columns.Contains("brand"))
             {
-                if (Convert.IsDBNull(row["Brand"]))
+                if (Convert.IsDBNull(row["brand"]))
                 {
                     result._isBrandNull = true;
                 }
                 else
                 {
-                    result._brand = Convert.ToString(row["Brand"]);
+                    result._brand = Convert.ToString(row["brand"]);
                     result._isBrandNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("LocationId"))
+            if (row.Table.Columns.Contains("location_id"))
             {
-                if (Convert.IsDBNull(row["LocationId"]))
+                if (Convert.IsDBNull(row["location_id"]))
                 {
                     result._isLocationIdNull = true;
                 }
                 else
                 {
-                    result._locationId = Convert.ToInt32(row["LocationId"]);
+                    result._locationId = Convert.ToInt32(row["location_id"]);
                     result._isLocationIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("HeatBtuPerHour"))
+            if (row.Table.Columns.Contains("heat_btu_per_hour"))
             {
-                if (Convert.IsDBNull(row["HeatBtuPerHour"]))
+                if (Convert.IsDBNull(row["heat_btu_per_hour"]))
                 {
                     result._isHeatBtuPerHourNull = true;
                 }
                 else
                 {
-                    result._heatBtuPerHour = Convert.ToDouble(row["HeatBtuPerHour"]);
+                    result._heatBtuPerHour = Convert.ToDouble(row["heat_btu_per_hour"]);
                     result._isHeatBtuPerHourNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("KeyName"))
+            if (row.Table.Columns.Contains("key_name"))
             {
-                if (Convert.IsDBNull(row["KeyName"]))
+                if (Convert.IsDBNull(row["key_name"]))
                 {
                     result._isKeyNameNull = true;
                 }
                 else
                 {
-                    result._keyName = Convert.ToString(row["KeyName"]);
+                    result._keyName = Convert.ToString(row["key_name"]);
                     result._isKeyNameNull = false;
                 }
             }
@@ -441,105 +445,105 @@ namespace ThermostatMonitorLib
         public static int SaveThermostat(Thermostat thermostat)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveThermostat", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("thermostats_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (thermostat._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", thermostat._id);
+                cmd.Parameters.AddWithValue("@id", thermostat._id);
             }
 
             if (thermostat._isIpAddressNull)
             {
-                cmd.Parameters.AddWithValue("@IpAddress", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@ip_address", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@IpAddress", thermostat._ipAddress);
+                cmd.Parameters.AddWithValue("@ip_address", thermostat._ipAddress);
             }
 
             if (thermostat._isDisplayNameNull)
             {
-                cmd.Parameters.AddWithValue("@DisplayName", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@display_name", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@DisplayName", thermostat._displayName);
+                cmd.Parameters.AddWithValue("@display_name", thermostat._displayName);
             }
 
-            if (thermostat._isACTonsNull)
+            if (thermostat._isAcTonsNull)
             {
-                cmd.Parameters.AddWithValue("@ACTons", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@ac_tons", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ACTons", thermostat._aCTons);
+                cmd.Parameters.AddWithValue("@ac_tons", thermostat._acTons);
             }
 
-            if (thermostat._isACSeerNull)
+            if (thermostat._isAcSeerNull)
             {
-                cmd.Parameters.AddWithValue("@ACSeer", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@ac_seer", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ACSeer", thermostat._aCSeer);
+                cmd.Parameters.AddWithValue("@ac_seer", thermostat._acSeer);
             }
 
-            if (thermostat._isACKilowattsNull)
+            if (thermostat._isAcKilowattsNull)
             {
-                cmd.Parameters.AddWithValue("@ACKilowatts", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@ac_kilowatts", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ACKilowatts", thermostat._aCKilowatts);
+                cmd.Parameters.AddWithValue("@ac_kilowatts", thermostat._acKilowatts);
             }
 
             if (thermostat._isFanKilowattsNull)
             {
-                cmd.Parameters.AddWithValue("@FanKilowatts", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@fan_kilowatts", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@FanKilowatts", thermostat._fanKilowatts);
+                cmd.Parameters.AddWithValue("@fan_kilowatts", thermostat._fanKilowatts);
             }
 
             if (thermostat._isBrandNull)
             {
-                cmd.Parameters.AddWithValue("@Brand", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@brand", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Brand", thermostat._brand);
+                cmd.Parameters.AddWithValue("@brand", thermostat._brand);
             }
 
             if (thermostat._isLocationIdNull)
             {
-                cmd.Parameters.AddWithValue("@LocationId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@location_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@LocationId", thermostat._locationId);
+                cmd.Parameters.AddWithValue("@location_id", thermostat._locationId);
             }
 
             if (thermostat._isHeatBtuPerHourNull)
             {
-                cmd.Parameters.AddWithValue("@HeatBtuPerHour", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@heat_btu_per_hour", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@HeatBtuPerHour", thermostat._heatBtuPerHour);
+                cmd.Parameters.AddWithValue("@heat_btu_per_hour", thermostat._heatBtuPerHour);
             }
 
             if (thermostat._isKeyNameNull)
             {
-                cmd.Parameters.AddWithValue("@KeyName", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@key_name", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@KeyName", thermostat._keyName);
+                cmd.Parameters.AddWithValue("@key_name", thermostat._keyName);
             }
 
             cmd.Connection.Open();
@@ -557,7 +561,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteThermostat(int thermostatId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteThermostat", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("thermostats_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", thermostatId);
             cmd.Connection.Open();
@@ -580,7 +584,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

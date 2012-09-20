@@ -1,6 +1,9 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
 namespace ThermostatMonitorLib
 {
@@ -8,17 +11,17 @@ namespace ThermostatMonitorLib
     public partial class Snapshot
     {
         #region Declarations
-        System.Int32 _id;
-        System.Int32 _thermostatId;
-        System.DateTime _startTime;
-        System.Int32 _seconds;
-        System.String _mode;
-        System.Int32 _insideTempHigh;
-        System.Int32 _insideTempLow;
-        System.Int32 _insideTempAverage;
-        System.Int32 _outsideTempHigh;
-        System.Int32 _outsideTempLow;
-        System.Int32 _outsideTempAverage;
+        int _id;
+        int _thermostatId;
+        DateTime _startTime;
+        int _seconds;
+        string _mode;
+        int _insideTempHigh;
+        int _insideTempLow;
+        int _insideTempAverage;
+        int _outsideTempHigh;
+        int _outsideTempLow;
+        int _outsideTempAverage;
 
         bool _isIdNull = true;
         bool _isThermostatIdNull = true;
@@ -35,7 +38,7 @@ namespace ThermostatMonitorLib
         #endregion
 
         #region Properties
-        public System.Int32 Id
+        public int Id
         {
             get { return _id; }
             set
@@ -45,7 +48,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 ThermostatId
+        public int ThermostatId
         {
             get { return _thermostatId; }
             set
@@ -55,7 +58,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.DateTime StartTime
+        public DateTime StartTime
         {
             get { return _startTime; }
             set
@@ -65,7 +68,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 Seconds
+        public int Seconds
         {
             get { return _seconds; }
             set
@@ -75,7 +78,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.String Mode
+        public string Mode
         {
             get { return _mode; }
             set
@@ -85,7 +88,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 InsideTempHigh
+        public int InsideTempHigh
         {
             get { return _insideTempHigh; }
             set
@@ -95,7 +98,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 InsideTempLow
+        public int InsideTempLow
         {
             get { return _insideTempLow; }
             set
@@ -105,7 +108,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 InsideTempAverage
+        public int InsideTempAverage
         {
             get { return _insideTempAverage; }
             set
@@ -115,7 +118,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 OutsideTempHigh
+        public int OutsideTempHigh
         {
             get { return _outsideTempHigh; }
             set
@@ -125,7 +128,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 OutsideTempLow
+        public int OutsideTempLow
         {
             get { return _outsideTempLow; }
             set
@@ -135,7 +138,7 @@ namespace ThermostatMonitorLib
             }
         }
 
-        public System.Int32 OutsideTempAverage
+        public int OutsideTempAverage
         {
             get { return _outsideTempAverage; }
             set
@@ -270,6 +273,7 @@ namespace ThermostatMonitorLib
 
         #endregion
 
+
         #region Constructor
         public Snapshot()
         {
@@ -279,7 +283,7 @@ namespace ThermostatMonitorLib
         #region Methods
         public static Snapshot LoadSnapshot(int snapshotId)
         {
-            SqlDataAdapter adapter = new SqlDataAdapter("LoadSnapshot", ThermostatMonitorLib.Global.Connection);
+            MySqlDataAdapter adapter = new MySqlDataAdapter("snapshots_load", ThermostatMonitorLib.Global.MySqlConnection);
             adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
             adapter.SelectCommand.Parameters.AddWithValue("@Id", snapshotId);
             DataTable dt = new DataTable();
@@ -292,145 +296,145 @@ namespace ThermostatMonitorLib
         internal static Snapshot GetSnapshot(DataRow row)
         {
             Snapshot result = new Snapshot();
-            if (row.Table.Columns.Contains("Id"))
+            if (row.Table.Columns.Contains("id"))
             {
-                if (Convert.IsDBNull(row["Id"]))
+                if (Convert.IsDBNull(row["id"]))
                 {
                     result._isIdNull = true;
                 }
                 else
                 {
-                    result._id = Convert.ToInt32(row["Id"]);
+                    result._id = Convert.ToInt32(row["id"]);
                     result._isIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("ThermostatId"))
+            if (row.Table.Columns.Contains("thermostat_id"))
             {
-                if (Convert.IsDBNull(row["ThermostatId"]))
+                if (Convert.IsDBNull(row["thermostat_id"]))
                 {
                     result._isThermostatIdNull = true;
                 }
                 else
                 {
-                    result._thermostatId = Convert.ToInt32(row["ThermostatId"]);
+                    result._thermostatId = Convert.ToInt32(row["thermostat_id"]);
                     result._isThermostatIdNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("StartTime"))
+            if (row.Table.Columns.Contains("start_time"))
             {
-                if (Convert.IsDBNull(row["StartTime"]))
+                if (Convert.IsDBNull(row["start_time"]))
                 {
                     result._isStartTimeNull = true;
                 }
                 else
                 {
-                    result._startTime = Convert.ToDateTime(row["StartTime"]);
+                    result._startTime = Convert.ToDateTime(row["start_time"]);
                     result._isStartTimeNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Seconds"))
+            if (row.Table.Columns.Contains("seconds"))
             {
-                if (Convert.IsDBNull(row["Seconds"]))
+                if (Convert.IsDBNull(row["seconds"]))
                 {
                     result._isSecondsNull = true;
                 }
                 else
                 {
-                    result._seconds = Convert.ToInt32(row["Seconds"]);
+                    result._seconds = Convert.ToInt32(row["seconds"]);
                     result._isSecondsNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("Mode"))
+            if (row.Table.Columns.Contains("mode"))
             {
-                if (Convert.IsDBNull(row["Mode"]))
+                if (Convert.IsDBNull(row["mode"]))
                 {
                     result._isModeNull = true;
                 }
                 else
                 {
-                    result._mode = Convert.ToString(row["Mode"]);
+                    result._mode = Convert.ToString(row["mode"]);
                     result._isModeNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("InsideTempHigh"))
+            if (row.Table.Columns.Contains("inside_temp_high"))
             {
-                if (Convert.IsDBNull(row["InsideTempHigh"]))
+                if (Convert.IsDBNull(row["inside_temp_high"]))
                 {
                     result._isInsideTempHighNull = true;
                 }
                 else
                 {
-                    result._insideTempHigh = Convert.ToInt32(row["InsideTempHigh"]);
+                    result._insideTempHigh = Convert.ToInt32(row["inside_temp_high"]);
                     result._isInsideTempHighNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("InsideTempLow"))
+            if (row.Table.Columns.Contains("inside_temp_low"))
             {
-                if (Convert.IsDBNull(row["InsideTempLow"]))
+                if (Convert.IsDBNull(row["inside_temp_low"]))
                 {
                     result._isInsideTempLowNull = true;
                 }
                 else
                 {
-                    result._insideTempLow = Convert.ToInt32(row["InsideTempLow"]);
+                    result._insideTempLow = Convert.ToInt32(row["inside_temp_low"]);
                     result._isInsideTempLowNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("InsideTempAverage"))
+            if (row.Table.Columns.Contains("inside_temp_average"))
             {
-                if (Convert.IsDBNull(row["InsideTempAverage"]))
+                if (Convert.IsDBNull(row["inside_temp_average"]))
                 {
                     result._isInsideTempAverageNull = true;
                 }
                 else
                 {
-                    result._insideTempAverage = Convert.ToInt32(row["InsideTempAverage"]);
+                    result._insideTempAverage = Convert.ToInt32(row["inside_temp_average"]);
                     result._isInsideTempAverageNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("OutsideTempHigh"))
+            if (row.Table.Columns.Contains("outside_temp_high"))
             {
-                if (Convert.IsDBNull(row["OutsideTempHigh"]))
+                if (Convert.IsDBNull(row["outside_temp_high"]))
                 {
                     result._isOutsideTempHighNull = true;
                 }
                 else
                 {
-                    result._outsideTempHigh = Convert.ToInt32(row["OutsideTempHigh"]);
+                    result._outsideTempHigh = Convert.ToInt32(row["outside_temp_high"]);
                     result._isOutsideTempHighNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("OutsideTempLow"))
+            if (row.Table.Columns.Contains("outside_temp_low"))
             {
-                if (Convert.IsDBNull(row["OutsideTempLow"]))
+                if (Convert.IsDBNull(row["outside_temp_low"]))
                 {
                     result._isOutsideTempLowNull = true;
                 }
                 else
                 {
-                    result._outsideTempLow = Convert.ToInt32(row["OutsideTempLow"]);
+                    result._outsideTempLow = Convert.ToInt32(row["outside_temp_low"]);
                     result._isOutsideTempLowNull = false;
                 }
             }
 
-            if (row.Table.Columns.Contains("OutsideTempAverage"))
+            if (row.Table.Columns.Contains("outside_temp_average"))
             {
-                if (Convert.IsDBNull(row["OutsideTempAverage"]))
+                if (Convert.IsDBNull(row["outside_temp_average"]))
                 {
                     result._isOutsideTempAverageNull = true;
                 }
                 else
                 {
-                    result._outsideTempAverage = Convert.ToInt32(row["OutsideTempAverage"]);
+                    result._outsideTempAverage = Convert.ToInt32(row["outside_temp_average"]);
                     result._isOutsideTempAverageNull = false;
                 }
             }
@@ -441,105 +445,105 @@ namespace ThermostatMonitorLib
         public static int SaveSnapshot(Snapshot snapshot)
         {
             int result = 0;
-            SqlCommand cmd = new SqlCommand("SaveSnapshot", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("snapshots_save", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             if (snapshot._isIdNull)
             {
-                cmd.Parameters.AddWithValue("@Id", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Id", snapshot._id);
+                cmd.Parameters.AddWithValue("@id", snapshot._id);
             }
 
             if (snapshot._isThermostatIdNull)
             {
-                cmd.Parameters.AddWithValue("@ThermostatId", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@thermostat_id", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@ThermostatId", snapshot._thermostatId);
+                cmd.Parameters.AddWithValue("@thermostat_id", snapshot._thermostatId);
             }
 
             if (snapshot._isStartTimeNull)
             {
-                cmd.Parameters.AddWithValue("@StartTime", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@start_time", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@StartTime", snapshot._startTime);
+                cmd.Parameters.AddWithValue("@start_time", snapshot._startTime);
             }
 
             if (snapshot._isSecondsNull)
             {
-                cmd.Parameters.AddWithValue("@Seconds", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@seconds", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Seconds", snapshot._seconds);
+                cmd.Parameters.AddWithValue("@seconds", snapshot._seconds);
             }
 
             if (snapshot._isModeNull)
             {
-                cmd.Parameters.AddWithValue("@Mode", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@mode", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@Mode", snapshot._mode);
+                cmd.Parameters.AddWithValue("@mode", snapshot._mode);
             }
 
             if (snapshot._isInsideTempHighNull)
             {
-                cmd.Parameters.AddWithValue("@InsideTempHigh", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@inside_temp_high", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@InsideTempHigh", snapshot._insideTempHigh);
+                cmd.Parameters.AddWithValue("@inside_temp_high", snapshot._insideTempHigh);
             }
 
             if (snapshot._isInsideTempLowNull)
             {
-                cmd.Parameters.AddWithValue("@InsideTempLow", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@inside_temp_low", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@InsideTempLow", snapshot._insideTempLow);
+                cmd.Parameters.AddWithValue("@inside_temp_low", snapshot._insideTempLow);
             }
 
             if (snapshot._isInsideTempAverageNull)
             {
-                cmd.Parameters.AddWithValue("@InsideTempAverage", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@inside_temp_average", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@InsideTempAverage", snapshot._insideTempAverage);
+                cmd.Parameters.AddWithValue("@inside_temp_average", snapshot._insideTempAverage);
             }
 
             if (snapshot._isOutsideTempHighNull)
             {
-                cmd.Parameters.AddWithValue("@OutsideTempHigh", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@outside_temp_high", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@OutsideTempHigh", snapshot._outsideTempHigh);
+                cmd.Parameters.AddWithValue("@outside_temp_high", snapshot._outsideTempHigh);
             }
 
             if (snapshot._isOutsideTempLowNull)
             {
-                cmd.Parameters.AddWithValue("@OutsideTempLow", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@outside_temp_low", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@OutsideTempLow", snapshot._outsideTempLow);
+                cmd.Parameters.AddWithValue("@outside_temp_low", snapshot._outsideTempLow);
             }
 
             if (snapshot._isOutsideTempAverageNull)
             {
-                cmd.Parameters.AddWithValue("@OutsideTempAverage", System.DBNull.Value);
+                cmd.Parameters.AddWithValue("@outside_temp_average", System.DBNull.Value);
             }
             else
             {
-                cmd.Parameters.AddWithValue("@OutsideTempAverage", snapshot._outsideTempAverage);
+                cmd.Parameters.AddWithValue("@outside_temp_average", snapshot._outsideTempAverage);
             }
 
             cmd.Connection.Open();
@@ -557,7 +561,7 @@ namespace ThermostatMonitorLib
 
         public static void DeleteSnapshot(int snapshotId)
         {
-            SqlCommand cmd = new SqlCommand("DeleteSnapshot", ThermostatMonitorLib.Global.Connection);
+            MySqlCommand cmd = new MySqlCommand("snapshots_delete", ThermostatMonitorLib.Global.MySqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Id", snapshotId);
             cmd.Connection.Open();
@@ -580,7 +584,5 @@ namespace ThermostatMonitorLib
 
     }
 }
-
-
 
 

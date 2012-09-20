@@ -45,9 +45,9 @@ public partial class cp_EditThermostat : System.Web.UI.Page
         else
         {
             thermostat = new ThermostatMonitorLib.Thermostat();
-            thermostat.ACSeer = 16;
-            thermostat.ACTons = 3.5;
-            thermostat.ACKilowatts = 2.625;
+            thermostat.AcSeer = 16;
+            thermostat.AcTons = 3.5;
+            thermostat.AcKilowatts = 2.625;
             thermostat.DisplayName = "New Thermostat";
             thermostat.FanKilowatts = 0.5;
             thermostat.IpAddress = "192.168.1.106";
@@ -89,9 +89,9 @@ public partial class cp_EditThermostat : System.Web.UI.Page
         LocationList.SelectedValue = thermostat.LocationId.ToString();
         DisplayNameText.Text = thermostat.DisplayName;
         IpAddressText.Text = thermostat.IpAddress;
-        TonsText.Text = thermostat.ACTons.ToString();
-        SeerText.Text = thermostat.ACSeer.ToString();
-        KilowattsLabel.Text = thermostat.ACKilowatts.ToString() + "kw";
+        TonsText.Text = thermostat.AcTons.ToString();
+        SeerText.Text = thermostat.AcSeer.ToString();
+        KilowattsLabel.Text = thermostat.AcKilowatts.ToString() + "kw";
         BrandList.SelectedValue = thermostat.Brand;
         HeatBtuPerHourText.Text = thermostat.HeatBtuPerHour.ToString("###,###,###,###,###.##");
         FanKilowattsText.Text = thermostat.FanKilowatts.ToString();
@@ -125,9 +125,9 @@ public partial class cp_EditThermostat : System.Web.UI.Page
             thermostat.LocationId = Convert.ToInt32(LocationList.SelectedValue);
             thermostat.DisplayName = DisplayNameText.Text;
             thermostat.IpAddress = IpAddressText.Text;
-            thermostat.ACTons = Convert.ToDouble(TonsText.Text);
-            thermostat.ACSeer = Convert.ToInt32(SeerText.Text);
-            thermostat.ACKilowatts = (thermostat.ACTons * 12.0) / Convert.ToDouble(thermostat.ACSeer);
+            thermostat.AcTons = Convert.ToDouble(TonsText.Text);
+            thermostat.AcSeer = Convert.ToInt32(SeerText.Text);
+            thermostat.AcKilowatts = (thermostat.AcTons * 12.0) / Convert.ToDouble(thermostat.AcSeer);
             thermostat.FanKilowatts = Convert.ToDouble(FanKilowattsText.Text);
             thermostat.HeatBtuPerHour = Convert.ToDouble(HeatBtuPerHourText.Text.Replace(",", ""));
             thermostat.Brand = BrandList.SelectedValue;

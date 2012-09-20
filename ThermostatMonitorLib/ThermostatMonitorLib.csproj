@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.4.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -62,14 +63,8 @@
     <Compile Include="Generated\Temperatures.cs" />
     <Compile Include="Generated\Thermostat.cs" />
     <Compile Include="Generated\Thermostats.cs" />
-    <Compile Include="Generated\ThermostatSetting.cs" />
-    <Compile Include="Generated\ThermostatSettings.cs" />
-    <Compile Include="Generated\TransitionStat.cs" />
-    <Compile Include="Generated\TransitionStats.cs" />
     <Compile Include="Generated\User.cs" />
     <Compile Include="Generated\Users.cs" />
-    <Compile Include="Generated\UserSetting.cs" />
-    <Compile Include="Generated\UserSettings.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="JSON.cs" />
     <Compile Include="Location.cs" />
@@ -85,9 +80,6 @@
     <Compile Include="User.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Weather.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

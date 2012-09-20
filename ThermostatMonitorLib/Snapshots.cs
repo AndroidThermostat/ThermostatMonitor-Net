@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Collections;
 
 
@@ -59,8 +59,8 @@ namespace ThermostatMonitorLib
 
         public static DataTable LoadDeltas(int thermostatId, DateTime startDate, DateTime endDate)
         {
-            string sql = "select Outsidetempaverage - Insidetempaverage as Delta, Mode, sum(Seconds) as TotalSeconds from snapshots where thermostatid=@ThermostatId and StartTime BETWEEN @StartDate AND @EndDate group by Outsidetempaverage - Insidetempaverage, mode order by delta";
-            SqlDataAdapter adapter = new SqlDataAdapter(sql, Global.Connection);
+            string sql = "select outside_temp_average - inside_temp_average as delta, mode, sum(seconds) as TotalSeconds from snapshots where thermostat_id=@ThermostatId and start_time BETWEEN @StartDate AND @EndDate group by outside_temp_average - inside_temp_average, mode order by delta";
+            MySqlDataAdapter adapter = new MySqlDataAdapter(sql, Global.MySqlConnection);
             adapter.SelectCommand.Parameters.AddWithValue("@ThermostatId", thermostatId);
             adapter.SelectCommand.Parameters.AddWithValue("@StartDate", startDate);
             adapter.SelectCommand.Parameters.AddWithValue("@EndDate", endDate);
@@ -169,10 +169,10 @@ namespace ThermostatMonitorLib
         //Loads a wider range and trims off that seconds from the first and last snapshots to match the date range provided.
         public static Snapshots LoadRange(int thermostatId, DateTime startDate, DateTime endDate)
         {
-            Snapshots snapshots = Snapshots.LoadSnapshots("SELECT * FROM Snapshots WHERE ThermostatId=@ThermostatId and StartTime BETWEEN @StartDate AND @EndDate ORDER BY StartTime", CommandType.Text, new SqlParameter[] { 
-                new SqlParameter("@ThermostatId", thermostatId),
-                new SqlParameter("@StartDate", startDate.AddDays(-1)),
-                new SqlParameter("@EndDate", endDate)
+            Snapshots snapshots = Snapshots.LoadSnapshots("SELECT * FROM Snapshots WHERE thermostat_id=@ThermostatId and start_time BETWEEN @StartDate AND @EndDate ORDER BY start_time", CommandType.Text, new MySqlParameter[] { 
+                new MySqlParameter("@ThermostatId", thermostatId),
+                new MySqlParameter("@StartDate", startDate.AddDays(-1)),
+                new MySqlParameter("@EndDate", endDate)
             });
 
             //filter through them and chop off seconds before and after the cycle;
